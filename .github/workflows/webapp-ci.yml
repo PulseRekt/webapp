@@ -34,6 +34,7 @@ jobs:
     - name: Install Dependencies
       run: npm install
 
+
     - name: Install MariaDB
       run: |
         sudo apt update
@@ -41,6 +42,7 @@ jobs:
         sudo mysql -u root -p"Thenothing1!"
         sudo systemctl start mariadb
         sudo systemctl enable mariadb
+
 
     - name: Run Jest Tests
       run: npm test
