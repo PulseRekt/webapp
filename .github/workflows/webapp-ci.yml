@@ -38,6 +38,7 @@ jobs:
       run: |
         sudo apt update
         sudo apt install -y mariadb-server
+        sudo mysql -u root -p"Thenothing1!"
         sudo systemctl start mariadb
         sudo systemctl enable mariadb
 
