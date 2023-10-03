@@ -3,6 +3,7 @@ import fs from "fs";
 import csvParser from "csv-parser";
 
 import parseCSV from "./app/utils/parseCsv.js"
+import createCloudDatabase from "./app/utils/dbCreator.js";
 const userFile = "./opt/users.csv"
 
 
@@ -10,6 +11,7 @@ const port = 8080;
 
 async function initialize() {
     try {
+      await createCloudDatabase();
       await parseCSV(userFile);
       console.log('CSV parsing and data insertion completed successfully.');
     } catch (error) {
