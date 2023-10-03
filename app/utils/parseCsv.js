@@ -5,23 +5,30 @@ import bcrypt from 'bcrypt';
 import Assignment from '../model/Assignment.js';
 
 const parseCSV = (csvFilePath) => {
-  const results = [];
+  return new Promise((resolve, reject) => {
+    const results = [];
 
-  fs.createReadStream(csvFilePath)
-  .pipe(csv())
-  .on('data', async(data) => {
-
-      results.push(data);
-
-  })
-  .on('end',async()=>{
-    await insertDataIntoDatabase(results);
-  })
-  .on('error', (error) => {
-    console.error('Error parsing CSV:', error);
+    fs.createReadStream(csvFilePath)
+      .pipe(csv())
+      .on('data', (data) => {
+        results.push(data);
+      })
+      .on('end', () => {
+        insertDataIntoDatabase(results)
+          .then(() => {
+            resolve(); // Resolve the outer promise when insertDataIntoDatabase is done
+          })
+          .catch((error) => {
+            console.error('Error inserting data into database:', error);
+            reject(error);
+          });
+      })
+      .on('error', (error) => {
+        console.error('Error parsing CSV:', error);
+        reject(error);
+      });
   });
 };
-
 
 
 
