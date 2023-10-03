@@ -45,5 +45,5 @@ jobs:
 
 
     - name: Run Jest Tests
-      run: npm test
+      run: npm start
     
