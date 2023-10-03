@@ -23,6 +23,7 @@ jobs:
     steps:
     - name: checkout
       uses: actions/checkout@v3
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
@@ -32,6 +33,13 @@ jobs:
 
     - name: Install Dependencies
       run: npm install
+
+    - name: Install MariaDB
+      run: |
+        sudo apt update
+        sudo apt install -y mariadb-server
+        sudo systemctl start mariadb
+        sudo systemctl enable mariadb
 
     - name: Run Jest Tests
       run: npm test
