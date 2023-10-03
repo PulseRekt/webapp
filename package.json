@@ -5,12 +5,13 @@
     "main": "server.js",
     "type": "module",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "jest",
         "start": "nodemon server.js"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@babel/preset-env": "^7.22.20",
         "babel-jest": "^29.7.0",
         "bcrypt": "^5.1.1",
         "cors": "^2.8.5",
@@ -20,6 +21,8 @@
         "mysql2": "^3.6.1",
         "sequelize": "^6.33.0",
         "sequelize-cli": "^6.6.1",
+        "supertest": "^6.3.3",
+        "ts-jest": "^29.1.1",
         "uuid": "^9.0.1"
     }
 }
