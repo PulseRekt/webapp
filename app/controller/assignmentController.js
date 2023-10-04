@@ -1,29 +1,34 @@
 import assignmentRouter from '../routes/assingmentRoute.js';
 import handleBasicAuthentication from '../security/authentication.js';
 import * as as from '../service/assignmentService.js'
-export const createAssignment = async(req,res,next)=>{
-    const token = req.headers.authorization;
-    if(token){
-        const credentials = await handleBasicAuthentication(token);
-        if(credentials.authenticated){
-            const body = req.body;
-            body.userId=credentials.userId;
-            const assingment = await as.createAssignment(body);
-            if(assingment){
-                // console.log("inside assignment");
-                return res.status(201).json(assingment);
-            }
-            
-        }
-        else{
-            res.status(401).send();
-        }
+export const createAssignment = async (req, res, next) => {
+    try {
+      const token = req.headers.authorization;
+      if (!token) {
+        return res.status(401).send('Unauthorized: Missing token');
+      }
+  
+      const credentials = await handleBasicAuthentication(token);
+  
+      if (!credentials.authenticated) {
+        return res.status(401).send('Unauthorized: Invalid credentials');
+      }
+  
+      const body = req.body;
+      body.userId = credentials.userId;
+  
+      const assignment = await as.createAssignment(body);
+  
+      if (!assignment) {
+        return res.status(500).send('Internal Server Error: Failed to create assignment');
+      }
+  
+      return res.status(201).json(assignment);
+    } catch (error) {
+      console.error('Error in createAssignment:', error);
+      return res.status(500).send('Internal Server Error');
     }
-    else{
-        res.status(401);
-    }
-    
-}
+  };
 
 export const getAssignments = async(req,res,next)=>{
     const token = req.headers.authorization;

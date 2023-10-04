@@ -36,15 +36,12 @@ jobs:
     - name: Installing nodemon
       run: npm install nodemon
 
-    - name: Install MySQL
-      run: |
-        sudo apt update
-        echo "mysql-server mysql-server/root_password password Thenothing1!" | sudo debconf-set-selections
-        echo "mysql-server mysql-server/root_password_again password Thenothing1!" | sudo debconf-set-selections
-        sudo apt install -y mysql-server
-        sudo systemctl start mysql
-        sudo systemctl enable mysql
-    
+    - name: Setup MySQL
+      uses: mirromutth/mysql-action@v1.1
+      with:
+        mysql root password: 'Thenothing1!' # Required if "mysql user" is empty, default is empty. The root superuser password
+        mysql user: 'root'
+        
     - name: Check MySQL Connection
       run: |
 
@@ -59,5 +56,5 @@ jobs:
     
 
     - name: Run Jest Tests
-      run: npm start
+      run: npm test
     
