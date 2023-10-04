@@ -40,7 +40,6 @@ jobs:
       uses: mirromutth/mysql-action@v1.1
       with:
         mysql root password: 'Thenothing1!' # Required if "mysql user" is empty, default is empty. The root superuser password
-        mysql user: 'root'
 
 
     - name: Check MySQL Connection
