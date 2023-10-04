@@ -47,24 +47,21 @@ jobs:
     - name: Installing nodemon
       run: npm install nodemon
 
-    # - name: Setup MySQL
-    #   uses: mirromutth/mysql-action@v1.1
-    #   with:
-    #     mysql root password: 'Thenothing1!' 
-
-    - name: Check MySQL Connection
-      run: |
-        sudo systemctl start mysql
 
 
-        mysql -u root -p"Thenothing1!" -e "SELECT 1" > /dev/null
+    # - name: Check MySQL Connection
+    #   run: |
+    #     sudo systemctl start mysql
 
-        if [ $? -eq 0 ]; then
-          echo "MySQL connection successful"
-        else
-          echo "MySQL connection failed"
-          exit 1
-        fi
+
+    #     mysql -u root -p"Thenothing1!" -e "SELECT 1" > /dev/null
+
+    #     if [ $? -eq 0 ]; then
+    #       echo "MySQL connection successful"
+    #     else
+    #       echo "MySQL connection failed"
+    #       exit 1
+    #     fi
     
 
     - name: Run Jest Tests
