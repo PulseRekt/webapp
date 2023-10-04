@@ -25,6 +25,7 @@ const validateAssignment = (assignment) => {
 
 export const createAssignment = async (req, res, next) => {
     try {
+      if (Object.keys(req.query).length === 0){
       const token = req.headers.authorization;
       if (!token) {
         return res.status(401).send('Unauthorized: Missing token');
@@ -56,7 +57,10 @@ export const createAssignment = async (req, res, next) => {
         return res.status(500).send('Internal Server Error: Failed to create assignment');
       }
   
-      return res.status(201).json(assignment);
+      return res.status(201).json(assignment);}
+      else{
+        return res.status(400).send();
+      }
     } catch (error) {
       console.error('Error in createAssignment:', error);
       return res.status(500).send('Internal Server Error');
@@ -65,6 +69,8 @@ export const createAssignment = async (req, res, next) => {
 
   export const getAssignments = async (req, res, next) => {
     try {
+      if (Object.keys(req.query).length === 0){
+
       const token = req.headers.authorization;
   
       if (!token) {
@@ -80,6 +86,10 @@ export const createAssignment = async (req, res, next) => {
       const assignments = await as.getAllAssignments();
   
       res.status(200).json(assignments);
+    }
+      else{
+        res.status(400).send();
+      }
     } catch (error) {
       console.error('Error in getAssignments:', error);
       res.status(500).send('Internal Server Error');
@@ -89,6 +99,8 @@ export const createAssignment = async (req, res, next) => {
 
 export const putAssignment = async (req, res, next) => {
     try {
+      if (Object.keys(req.query).length === 0){
+
       const token = req.headers.authorization;
       const id = req.params.id;
   
@@ -113,21 +125,23 @@ export const putAssignment = async (req, res, next) => {
       body.userId = credentials.userId;
   
       const assignment = await as.getAssignmentById(id);
-
-      if (assignment.userId === credentials.userId) {
-        if (!req.body || Object.keys(req.body).length === 0) {
-          return res.status(204).send(); 
-        }
-
-  
+      console.log(assignment);
       if (!assignment) {
         return res.status(404).send('Not Found: Assignment not found');
       }
+
+      if (assignment.userId === credentials.userId) {
+        if (!req.body || Object.keys(req.body).length === 0) {
+          return res.status(400).send(); 
+        }
   
         await as.updateAssingmentById(body, id);
-        return res.status(200).send('Assignment updated successfully');
+        return res.status(204).send();
       } else {
         return res.status(403).send('Forbidden: You do not have permission to update this assignment');
+      }}
+      else{
+        res.status(400);
       }
     } catch (error) {
       console.error('Error in putAssignment:', error);
@@ -138,6 +152,8 @@ export const putAssignment = async (req, res, next) => {
 
   export const deleteAssignmentById = async (req, res, next) => {
     try {
+      if (Object.keys(req.query).length === 0){
+
       const token = req.headers.authorization;
       const id = req.params.id;
   
@@ -152,16 +168,20 @@ export const putAssignment = async (req, res, next) => {
       }
   
       const assignment = await as.getAssignmentById(id);
-      if (assignment.userId === credentials.userId) {
-  
       if (!assignment) {
         return res.status(404).send('Not Found: Assignment not found');
       }
+      if (assignment.userId === credentials.userId) {
+  
+     
   
         await as.deleteAssignmentById(id);
-        return res.status(200).send('Assignment deleted successfully');
+        return res.status(204).send();
       } else {
         return res.status(403).send('Forbidden: You do not have permission to delete this assignment');
+      }}
+      else{
+        res.status(400).send();
       }
     } catch (error) {
       console.error('Error in deleteAssignmentById:', error);
@@ -172,6 +192,8 @@ export const putAssignment = async (req, res, next) => {
   
   export const getAssignmentById = async (req, res, next) => {
     try {
+      if (Object.keys(req.query).length === 0){
+
       const token = req.headers.authorization;
       const id = req.params.id;
   
@@ -186,13 +208,17 @@ export const putAssignment = async (req, res, next) => {
       }
 
       const assignment = await as.getAssignmentById(id);
-      
-      
       if (!assignment) {
         return res.status(404).send('Not Found: Assignment not found');
       }
+      
+      
+      
       res.status(200).json(assignment);
-
+    }
+    else{
+      res.status(400).send();
+    }
     } catch (error) {
       console.error('Error in getAssignmentById:', error);
       res.status(500).send('Internal Server Error');
