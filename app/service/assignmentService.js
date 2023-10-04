@@ -2,7 +2,7 @@ import Assignment from "../model/Assignment.js";
 
 export const createAssignment = async (assignment) => {
     try {
-        console.log(assignment);
+        // console.log(assignment);
         const createdAssignment = await Assignment.create(assignment);
         return createdAssignment;
     } catch (error) {
