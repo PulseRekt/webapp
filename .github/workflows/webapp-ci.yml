@@ -41,7 +41,6 @@ jobs:
       with:
         mysql root password: 'Thenothing1!' 
 
-
     - name: Check MySQL Connection
       run: |
         sudo systemctl start mysql
