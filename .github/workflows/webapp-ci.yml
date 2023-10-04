@@ -39,12 +39,14 @@ jobs:
     - name: Setup MySQL
       uses: mirromutth/mysql-action@v1.1
       with:
-        mysql root password: 'Thenothing1!' # Required if "mysql user" is empty, default is empty. The root superuser password
+
+        mysql root password: 'Thenothing1!' 
 
 
     - name: Check MySQL Connection
       run: |
         sudo systemctl start mysql
+
 
         mysql -u root -p"Thenothing1!" -e "SELECT 1" > /dev/null
 

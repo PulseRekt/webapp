@@ -30,95 +30,125 @@ export const createAssignment = async (req, res, next) => {
     }
   };
 
-export const getAssignments = async(req,res,next)=>{
-    const token = req.headers.authorization;
-
-    if(token){
-        const credentials = await handleBasicAuthentication(token);
-        if(credentials.authenticated){
-                const assignments = await as.getAllAssignments(); 
-
-                res.status(200).json(assignments);           
-        }
-        else{
-            res.status(401);
-        }
+  export const getAssignments = async (req, res, next) => {
+    try {
+      const token = req.headers.authorization;
+  
+      if (!token) {
+        return res.status(401).send('Unauthorized: Missing Authorization Token');
+      }
+  
+      const credentials = await handleBasicAuthentication(token);
+  
+      if (!credentials.authenticated) {
+        return res.status(401).send('Unauthorized: Invalid Credentials');
+      }
+  
+      const assignments = await as.getAllAssignments();
+  
+      res.status(200).json(assignments);
+    } catch (error) {
+      console.error('Error in getAssignments:', error);
+      res.status(500).send('Internal Server Error');
     }
-    else{
-        res.status(401);
-    }
-}
+  };
+  
 
-export const putAssignment = async(req,res,next)=>{
-    const token = req.headers.authorization;
-    const id = req.params.id
-
-    if(token){
-        const credentials = await handleBasicAuthentication(token);
-        if(credentials.authenticated){
-            const body = req.body;
-            body.userId=credentials.userId;
-            const assignment = await as.getAssignmentById(id);
-            if (assignment.userId === credentials.userId){
-                await as.updateAssingmentById(body,id);
-
-            }
-            else{
-                res.status(403).send();
-            }
-            res.status(200).send();
-        }
-        else{
-            res.status(401).send();
-        }
+export const putAssignment = async (req, res, next) => {
+    try {
+      const token = req.headers.authorization;
+      const id = req.params.id;
+  
+      if (!token) {
+        return res.status(401).send('Unauthorized: Missing Authorization Token');
+      }
+  
+      const credentials = await handleBasicAuthentication(token);
+  
+      if (!credentials.authenticated) {
+        return res.status(401).send('Unauthorized: Invalid Credentials');
+      }
+  
+      const body = req.body;
+      body.userId = credentials.userId;
+  
+      const assignment = await as.getAssignmentById(id);
+  
+      if (!assignment) {
+        return res.status(404).send('Not Found: Assignment not found');
+      }
+  
+      if (assignment.userId === credentials.userId) {
+        await as.updateAssignmentById(body, id);
+        return res.status(200).send('Assignment updated successfully');
+      } else {
+        return res.status(403).send('Forbidden: You do not have permission to update this assignment');
+      }
+    } catch (error) {
+      console.error('Error in putAssignment:', error);
+      res.status(500).send('Internal Server Error');
     }
-    else{
-        res.status(401).send();
-    }
-}
+  };
+  
 
-export const deleteAssignmentById = async(req,res,next)=>{
-    const token = req.headers.authorization;
-    const id = req.params.id;
-    console.log(id);
-
-    if(token){
-        const credentials = await handleBasicAuthentication(token);
-        console.log(credentials);
-        if(credentials.authenticated){
-            const assignment = await as.getAssignmentById(id);
-            if (assignment.userId === credentials.userId){
-            await as.deleteAssignmentById(id);
-            }
-            else{
-                res.status(403).send();
-            }
-            return res.status(200).send();
-        }
-        else{
-            res.status(401).send();
-        }
+  export const deleteAssignmentById = async (req, res, next) => {
+    try {
+      const token = req.headers.authorization;
+      const id = req.params.id;
+  
+      if (!token) {
+        return res.status(401).send('Unauthorized: Missing Authorization Token');
+      }
+  
+      const credentials = await handleBasicAuthentication(token);
+  
+      if (!credentials.authenticated) {
+        return res.status(401).send('Unauthorized: Invalid Credentials');
+      }
+  
+      const assignment = await as.getAssignmentById(id);
+  
+      if (!assignment) {
+        return res.status(404).send('Not Found: Assignment not found');
+      }
+  
+      if (assignment.userId === credentials.userId) {
+        await as.deleteAssignmentById(id);
+        return res.status(200).send('Assignment deleted successfully');
+      } else {
+        return res.status(403).send('Forbidden: You do not have permission to delete this assignment');
+      }
+    } catch (error) {
+      console.error('Error in deleteAssignmentById:', error);
+      res.status(500).send('Internal Server Error');
     }
-    else{
-        res.status(401).send();
+  };
+  
+  export const getAssignmentById = async (req, res, next) => {
+    try {
+      const token = req.headers.authorization;
+      const id = req.params.id;
+  
+      if (!token) {
+        return res.status(401).send('Unauthorized: Missing Authorization Token');
+      }
+  
+      const credentials = await handleBasicAuthentication(token);
+  
+      if (!credentials.authenticated) {
+        return res.status(401).send('Unauthorized: Invalid Credentials');
+      }
+  
+      const assignment = await as.getAssignmentById(id);
+  
+      if (!assignment) {
+        return res.status(404).send('Not Found: Assignment not found');
+      }
+  
+      res.status(200).json(assignment);
+    } catch (error) {
+      console.error('Error in getAssignmentById:', error);
+      res.status(500).send('Internal Server Error');
     }
-}
-
-export const getAssingmentById = async(req,res,next) =>{
-    const token = req.headers.authorization;
-    const id = req.params.id;
-
-    if(token){
-        const credentials = await handleBasicAuthentication(token);
-        if(credentials.authenticated){
-            const assignment = await as.getAssignmentById(id);
-            res.status(200).json(assignment);
-        }
-        else{
-            res.status(401).send();
-        }
-    }
-    else{
-        res.status(401).send();
-    }
-}
+  };
+  
