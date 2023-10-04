@@ -12,6 +12,17 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: 'Thenothing1!'
+          MYSQL_DATABASE: 'cloud'
+
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     strategy:
       matrix:
         node-version:
@@ -36,10 +47,10 @@ jobs:
     - name: Installing nodemon
       run: npm install nodemon
 
-    - name: Setup MySQL
-      uses: mirromutth/mysql-action@v1.1
-      with:
-        mysql root password: 'Thenothing1!' 
+    # - name: Setup MySQL
+    #   uses: mirromutth/mysql-action@v1.1
+    #   with:
+    #     mysql root password: 'Thenothing1!' 
 
     - name: Check MySQL Connection
       run: |
