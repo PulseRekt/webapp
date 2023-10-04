@@ -47,6 +47,19 @@ jobs:
     - name: Installing nodemon
       run: npm install nodemon
 
+<<<<<<< HEAD
+=======
+    - name: Setup MySQL
+      uses: mirromutth/mysql-action@v1.1
+      with:
+
+        mysql root password: 'Thenothing1!' 
+
+
+    - name: Check MySQL Connection
+      run: |
+        sudo systemctl start mysql
+>>>>>>> 8e44f0db466f62ec02c643826d8c82783801b27f
 
 
     # - name: Check MySQL Connection
