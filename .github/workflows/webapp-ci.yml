@@ -42,10 +42,10 @@ jobs:
         mysql root password: 'Thenothing1!' # Required if "mysql user" is empty, default is empty. The root superuser password
 
 
+
     - name: Check MySQL Connection
       run: |
         sudo systemctl start mysql
-
 
         mysql -u root -p"Thenothing1!" -e "SELECT 1" > /dev/null
 
