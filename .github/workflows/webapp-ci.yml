@@ -39,7 +39,9 @@ jobs:
     - name: Setup MySQL
       uses: mirromutth/mysql-action@v1.1
       with:
+
         mysql root password: 'Thenothing1!' 
+
 
     - name: Check MySQL Connection
       run: |
