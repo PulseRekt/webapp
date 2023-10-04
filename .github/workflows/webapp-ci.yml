@@ -30,21 +30,31 @@ jobs:
         node-version: ${{ matrix.node-version }} 
         cache: 'npm'
 
-
     - name: Install Dependencies
       run: npm install
 
     - name: Installing nodemon
       run: npm install nodemon
 
-    - name: Install MariaDB
+    - name: Install MySQL
       run: |
         sudo apt update
-        sudo apt install -y mariadb-server
-        sudo mysql -u root -p"Thenothing1!"
-        sudo systemctl start mariadb
-        sudo systemctl enable mariadb
-
+        echo "mysql-server mysql-server/root_password password Thenothing1!" | sudo debconf-set-selections
+        echo "mysql-server mysql-server/root_password_again password Thenothing1!" | sudo debconf-set-selections
+        sudo apt install -y mysql-server
+        sudo systemctl start mysql
+        sudo systemctl enable mysql
+    
+    - name: Check MySQL Connection
+      run: |
+        mysql -u root -pThenothing1! -e "SELECT 1" > /dev/null
+        if [ $? -eq 0 ]; then
+          echo "MySQL connection successful"
+        else
+          echo "MySQL connection failed"
+          exit 1
+        fi
+    
 
     - name: Run Jest Tests
       run: npm start
