@@ -1,6 +1,28 @@
 import assignmentRouter from '../routes/assingmentRoute.js';
 import handleBasicAuthentication from '../security/authentication.js';
 import * as as from '../service/assignmentService.js'
+
+const validateAssignment = (assignment) => {
+  const errors = [];
+
+  if (!assignment.name || typeof assignment.name !== 'string') {
+    errors.push({ field: 'name', message: 'Name is required and must be a string' });
+  }
+
+  if (!assignment.points || isNaN(Number(assignment.points)) || assignment.points < 0 || assignment.points > 100) {
+    errors.push({ field: 'points', message: 'Points is required and must be a number' });
+  }
+
+  if (!assignment.num_of_attempts || isNaN(Number(assignment.num_of_attempts)) ||  assignment.num_of_attempts < 0 || assignment.num_of_attempts > 100) {
+    errors.push({ field: 'num_of_attempts', message: 'Number of attempts is required and must be a number' });
+  }
+  if (!assignment.deadline) {
+    errors.push({ field: 'deadline', message: 'Invalid date format for deadline' });
+  }
+
+  return errors.length === 0 ? null : errors;
+};
+
 export const createAssignment = async (req, res, next) => {
     try {
       const token = req.headers.authorization;
@@ -13,9 +35,20 @@ export const createAssignment = async (req, res, next) => {
       if (!credentials.authenticated) {
         return res.status(401).send('Unauthorized: Invalid credentials');
       }
+
+      
+
   
       const body = req.body;
+      const validationErrors = validateAssignment(body);
+
+      if (validationErrors) {
+        return res.status(400).json({ errors: validationErrors });
+      }
       body.userId = credentials.userId;
+
+
+
   
       const assignment = await as.createAssignment(body);
   
@@ -68,17 +101,29 @@ export const putAssignment = async (req, res, next) => {
       if (!credentials.authenticated) {
         return res.status(401).send('Unauthorized: Invalid Credentials');
       }
+     
   
       const body = req.body;
+      const validationErrors = validateAssignment(body);
+
+      if (validationErrors) {
+        return res.status(400).json({ errors: validationErrors });
+      }
+      body.userId = credentials.userId;
       body.userId = credentials.userId;
   
       const assignment = await as.getAssignmentById(id);
+
+      if (assignment.userId === credentials.userId) {
+        if (!req.body || Object.keys(req.body).length === 0) {
+          return res.status(204).send(); 
+        }
+
   
       if (!assignment) {
         return res.status(404).send('Not Found: Assignment not found');
       }
   
-      if (assignment.userId === credentials.userId) {
         await as.updateAssingmentById(body, id);
         return res.status(200).send('Assignment updated successfully');
       } else {
@@ -107,12 +152,12 @@ export const putAssignment = async (req, res, next) => {
       }
   
       const assignment = await as.getAssignmentById(id);
+      if (assignment.userId === credentials.userId) {
   
       if (!assignment) {
         return res.status(404).send('Not Found: Assignment not found');
       }
   
-      if (assignment.userId === credentials.userId) {
         await as.deleteAssignmentById(id);
         return res.status(200).send('Assignment deleted successfully');
       } else {
@@ -139,7 +184,7 @@ export const putAssignment = async (req, res, next) => {
       if (!credentials.authenticated) {
         return res.status(401).send('Unauthorized: Invalid Credentials');
       }
-      if (assignment.userId === credentials.userId) {
+
       const assignment = await as.getAssignmentById(id);
       
       
@@ -147,11 +192,6 @@ export const putAssignment = async (req, res, next) => {
         return res.status(404).send('Not Found: Assignment not found');
       }
       res.status(200).json(assignment);
-  
-    }
-    else {
-        return res.status(403).send('Forbidden: You do not have permission to delete this assignment');
-      }
 
     } catch (error) {
       console.error('Error in getAssignmentById:', error);
