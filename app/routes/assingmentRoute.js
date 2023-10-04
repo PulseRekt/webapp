@@ -8,7 +8,7 @@ assignmentRouter.route('/')
     .post(ar.createAssignment)
 
 assignmentRouter.route('/:id')
-    .get(ar.getAssingmentById)
+    .get(ar.getAssignmentById)
     .put(ar.putAssignment)
     .delete(ar.deleteAssignmentById)
 
