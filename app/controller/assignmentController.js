@@ -79,7 +79,7 @@ export const putAssignment = async (req, res, next) => {
       }
   
       if (assignment.userId === credentials.userId) {
-        await as.updateAssignmentById(body, id);
+        await as.updateAssingmentById(body, id);
         return res.status(200).send('Assignment updated successfully');
       } else {
         return res.status(403).send('Forbidden: You do not have permission to update this assignment');
@@ -139,14 +139,20 @@ export const putAssignment = async (req, res, next) => {
       if (!credentials.authenticated) {
         return res.status(401).send('Unauthorized: Invalid Credentials');
       }
-  
+      if (assignment.userId === credentials.userId) {
       const assignment = await as.getAssignmentById(id);
-  
+      
+      
       if (!assignment) {
         return res.status(404).send('Not Found: Assignment not found');
       }
-  
       res.status(200).json(assignment);
+  
+    }
+    else {
+        return res.status(403).send('Forbidden: You do not have permission to delete this assignment');
+      }
+
     } catch (error) {
       console.error('Error in getAssignmentById:', error);
       res.status(500).send('Internal Server Error');
