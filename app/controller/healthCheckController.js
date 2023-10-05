@@ -1,9 +1,9 @@
-import sequelize from "../../config/dbsConnection.js";
+import sequelize from "../../config/dbConnection.js";
 export const getHealth = async(req,res,next)=>{
 
   if (req.body.constructor === Object && Object.keys(req.body).length === 0 && Object.keys(req.query).length === 0){
-    console.log(req.body);
-    sequelize.authenticate()
+    // console.log(req.body);
+    await sequelize.authenticate()
     .then(() => {
       res.status(200).end(); 
     })
