@@ -141,7 +141,9 @@ export const putAssignment = async (req, res, next) => {
         return res.status(403).send('Forbidden: You do not have permission to update this assignment');
       }}
       else{
-        res.status(400);
+
+        res.status(400).send();
+
       }
     } catch (error) {
       console.error('Error in putAssignment:', error);
