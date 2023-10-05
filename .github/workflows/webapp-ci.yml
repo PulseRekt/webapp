@@ -33,6 +33,7 @@ jobs:
       DB_DATABASE: cloud
       DB_USERNAME: root
       DB_PASSWORD: Thenothing1!
+      FILE_PATH: ./opt/users.csv
     
 
     steps:
