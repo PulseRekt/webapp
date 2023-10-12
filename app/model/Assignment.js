@@ -11,14 +11,14 @@ const Assignment = sequelize.define('Assignments',{
         type:DataTypes.STRING,
     },
     "points":{
-        type:DataTypes.INTEGER,
+        type:DataTypes.FLOAT,
         validate:{
             min:1,
             max:10
         }
     },
     "num_of_attempts":{
-        type:DataTypes.INTEGER,
+        type:DataTypes.FLOAT,
         validate:{
             min:1,
             max:100
@@ -29,10 +29,25 @@ const Assignment = sequelize.define('Assignments',{
     },
     "userId":{
         type:DataTypes.UUID
-    }
+    },
+    "account_created": {
+        type: DataTypes.DATE
+      },
+      "account_updated": {
+        type: DataTypes.DATE
+      }
 },
+
 {
-    timestamps:true
+    timestamps:false
 });
+Assignment.beforeCreate((assignment) => {
+    assignment.account_created = new Date();
+    assignment.account_updated = new Date();
+  });
+  
+  Assignment.beforeUpdate((assignment) => {
+    assignment.account_updated = new Date();
+  });
 
 export default Assignment;

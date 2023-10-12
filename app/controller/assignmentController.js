@@ -16,11 +16,36 @@ const validateAssignment = (assignment) => {
   if (!assignment.num_of_attempts || isNaN(Number(assignment.num_of_attempts)) ||  assignment.num_of_attempts < 0 || assignment.num_of_attempts > 100) {
     errors.push({ field: 'num_of_attempts', message: 'Number of attempts is required and must be a number' });
   }
-  if (!assignment.deadline) {
+  if (!assignment.deadline || !isValidDate(assignment.deadline)) {
     errors.push({ field: 'deadline', message: 'Invalid date format for deadline' });
   }
 
   return errors.length === 0 ? null : errors;
+};
+
+const isValidDate = (dateString) => {
+  const date = new Date(dateString);
+
+  // Check if the date is valid and not equal to NaN
+  return !isNaN(date.getTime());
+};
+
+const validateAssignmentObject = (obj) => {
+  const expectedProperties = ["name", "points", "num_of_attempts", "deadline"];
+
+  for (const prop of expectedProperties) {
+    if (!(prop in obj)) {
+      return `Missing property: ${prop}`;
+    }
+  }
+
+  for (const prop in obj) {
+    if (!expectedProperties.includes(prop)) {
+      return `Extra property: ${prop}`;
+    }
+  }
+
+  return null; 
 };
 
 export const createAssignment = async (req, res, next) => {
@@ -42,15 +67,15 @@ export const createAssignment = async (req, res, next) => {
   
       const body = req.body;
       const validationErrors = validateAssignment(body);
+      const validationStatus = validateAssignmentObject(body);
 
       if (validationErrors) {
         return res.status(400).json({ errors: validationErrors });
       }
+      if (validationStatus) {
+        return res.status(400).json({ errors: validationStatus });
+      }
       body.userId = credentials.userId;
-
-
-
-  
       const assignment = await as.createAssignment(body);
   
       if (!assignment) {
@@ -117,9 +142,14 @@ export const putAssignment = async (req, res, next) => {
   
       const body = req.body;
       const validationErrors = validateAssignment(body);
+      const validationStatus = validateAssignmentObject(body);
+
 
       if (validationErrors) {
         return res.status(400).json({ errors: validationErrors });
+      }
+      if (validationStatus) {
+        return res.status(400).json({ errors: validationStatus });
       }
       body.userId = credentials.userId;
       body.userId = credentials.userId;
