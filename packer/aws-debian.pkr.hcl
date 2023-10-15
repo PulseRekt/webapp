@@ -13,7 +13,7 @@ source "amazon-ebs" "my-ami" {
   instance_type     = "t2.micro"
   region            = "us-east-1"
   source_ami        = "ami-06db4d78cb1d3bbf9"
-  ssh_username      = "admin"
+  ssh_username      ="admin"
   security_group_id = "sg-0997c39dda94141f9"
 
   aws_polling {
