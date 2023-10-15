@@ -6,7 +6,19 @@ packer {
     }
   }
 }
+// variable "acceskey" {
+//   description = "AWS Access Key"
+//   type        = string
+//   sensitive   = true
+//   default     = var.AWS_ACCESS_KEY_ID
+// }
 
+// variable "secretkey" {
+//   description = "AWS Secret Key"
+//   type        = string
+//   sensitive   = true
+//   default     = var.AWS_SECRET_ACCESS_KEY
+// }
 build {
   name = "packer"
   sources = [
@@ -37,16 +49,20 @@ source "amazon-ebs" "my-ami" {
   // security_group_id = "sg-0997c39dda94141f9"
   ami_users = ["311572683597"]
 
-  // launch_block_device_mappings = [
-  //   {
-  //     device_name = "/dev/sda1"
-  //     volume_size = 25
-  //     volume_type = "gp2"
-  //   }
-  // ]
+  // access_key = "${var.acceskey}"
+  // secret_key = "${var.secretkey}"
 
   aws_polling {
     delay_seconds = 60
     max_attempts  = 60
   }
 }
+
+
+// launch_block_device_mappings = [
+//   {
+//     device_name = "/dev/sda1"
+//     volume_size = 25
+//     volume_type = "gp2"
+//   }
+// ]
