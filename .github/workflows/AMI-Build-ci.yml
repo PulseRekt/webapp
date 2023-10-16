@@ -35,7 +35,6 @@ jobs:
       DB_PASSWORD: Thenothing1!
       FILE_PATH: ./opt/users.csv
     
-
     steps:
     - name: checkout
       uses: actions/checkout@v3
@@ -55,8 +54,6 @@ jobs:
     - name: Run Jest Tests
       run: npm test
 
-    
-
   build:
     name: Build Ami
     runs-on: ubuntu-latest
@@ -75,6 +72,7 @@ jobs:
           id: setup
           with:
               version: "latest"
+
         - name: Build Artifact
           run: zip -r web-app.zip .
 
@@ -106,9 +104,6 @@ jobs:
                   echo "Packer validation check failed. Exiting the pipeline."
                   exit 1
                 fi
-
-
-
                       
         - name: Build AMI
           run: |

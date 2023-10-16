@@ -19,17 +19,12 @@ build {
       "sudo apt-get upgrade -y",
       "sudo apt-get install -y software-properties-common",
       "sudo apt install nodejs npm -y",
+      "sudo apt install zip"
       "sudo apt install -y mariadb-server",
       "echo -e 'Y\nThenothing1!\nThenothing1!\nY\nY\nY\nY\n' | sudo mysql_secure_installation"
     ]
   }
 
-  provisioner "shell" {
-    inline = [
-      "pwd",
-      "ls -a"
-    ]
-  }
 
   provisioner "file" {
     source      = "web-app.zip"
@@ -38,7 +33,10 @@ build {
 
   provisioner "shell" {
     inline = [
-      "ls -a"
+      "unzip web-app.zip",
+      "cd web-app"
+      "npm install"
+      "npm install nodemon"
     ]
   }
 
