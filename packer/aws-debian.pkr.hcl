@@ -6,6 +6,7 @@ packer {
     }
   }
 }
+
 // variable "acceskey" {
 //   description = "AWS Access Key"
 //   type        = string
