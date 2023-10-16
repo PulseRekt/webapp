@@ -26,13 +26,13 @@ build {
 
   provisioner "shell" {
     inline =[
-      "pwd"
+      "pwd",
       "ls -a"
     ]
   }
 
   provisioner "file" {
-    source      = "./"
+    source      = "web-app.zip"
     destination = "~/"
   }
 
