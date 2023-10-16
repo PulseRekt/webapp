@@ -19,6 +19,9 @@ jobs:
         with:
           version: "latest"
 
+      - name: Build Artifact
+        run: zip -r web-app.zip .
+
       - name: Packer init
         run: |
             packer init packer/aws-debian.pkr.hcl
