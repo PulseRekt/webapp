@@ -25,7 +25,7 @@ build {
   }
 
   provisioner "shell" {
-    inline =[
+    inline = [
       "pwd",
       "ls -a"
     ]
