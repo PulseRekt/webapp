@@ -33,10 +33,10 @@ build {
 
   provisioner "shell" {
     inline = [
-      "unzip web-app.zip",
-      "ls -a",
-      // "npm install",
-      // "npm install nodemon"
+      "unzip web-app.zip -d web-app",
+      "cd web-app"
+      "npm install",
+      "npm install nodemon"
     ]
   }
 
