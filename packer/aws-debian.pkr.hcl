@@ -25,19 +25,15 @@ build {
   }
 
   provisioner "file" {
-    source      = "web-app.zip"
+    source ="./"
     destination = "~/"
   }
 
   provisioner "shell" {
-      inline =  [
-      "cd ~",
-      "sudo mkdir -p webservice",
-      "sudo chmod 755 webservice",
-      "sudo unzip web-app.zip -d ~/webservice"
-      ]
+    inline = [
+      "ls -a"
+    ]
   }
-
 
 
 
