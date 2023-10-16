@@ -25,7 +25,7 @@ build {
   }
 
   provisioner "file" {
-    source ="./"
+    source      = "./"
     destination = "~/"
   }
 
