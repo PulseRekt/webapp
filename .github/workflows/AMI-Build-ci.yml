@@ -75,6 +75,10 @@ jobs:
           id: setup
           with:
               version: "latest"
+        - name: Build Artifact
+          run: zip -r web-app.zip .
+        
+        
 
         - name: Packer init
           run: |
@@ -100,8 +104,6 @@ jobs:
         #         name: web-app
         #         path: /home/runner/work/webapp/webapp
 
-        - name: Build Artifact
-          run: zip -r web-app.zip .
                       
         - name: Build AMI
           run: |
