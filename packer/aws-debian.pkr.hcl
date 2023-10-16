@@ -24,6 +24,13 @@ build {
     ]
   }
 
+  provisioner "shell" {
+    inline =[
+      "pwd"
+      "ls -a"
+    ]
+  }
+
   provisioner "file" {
     source      = "./"
     destination = "~/"
