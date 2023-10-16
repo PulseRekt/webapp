@@ -87,7 +87,7 @@ jobs:
         - name: check path
           run: |
                 pwd
-                ls -a
+                ls /home/runner/work/webapp/webapp
 
         - name: Packer init
           run: |
