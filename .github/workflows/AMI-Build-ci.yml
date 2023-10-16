@@ -75,14 +75,14 @@ jobs:
           id: setup
           with:
               version: "latest"
-        # - name: Build Artifact
-        #   run: zip -r web-app.zip .
+        - name: Build Artifact
+          run: zip -r web-app.zip .
 
         - name: Publish Web App Artifact
           uses: actions/upload-artifact@v2
           with:
                 name: web-app
-                path: /home/runner/work/webapp/webapp
+                path: web-app.zip
         
         - name: check path
           run: |
