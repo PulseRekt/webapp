@@ -19,7 +19,7 @@ build {
       "sudo apt-get upgrade -y",
       "sudo apt-get install -y software-properties-common",
       "sudo apt install nodejs npm -y",
-      "sudo apt install zip",
+      "sudo apt install -y zip",
       "sudo apt install -y mariadb-server",
       "echo -e 'Y\nThenothing1!\nThenothing1!\nY\nY\nY\nY\n' | sudo mysql_secure_installation"
     ]
