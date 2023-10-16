@@ -7,19 +7,6 @@ packer {
   }
 }
 
-// variable "acceskey" {
-//   description = "AWS Access Key"
-//   type        = string
-//   sensitive   = true
-//   default     = var.AWS_ACCESS_KEY_ID
-// }
-
-// variable "secretkey" {
-//   description = "AWS Secret Key"
-//   type        = string
-//   sensitive   = true
-//   default     = var.AWS_SECRET_ACCESS_KEY
-// }
 build {
   name = "packer"
   sources = [
@@ -36,6 +23,22 @@ build {
       "echo -e 'Y\nThenothing1!\nThenothing1!\nY\nY\nY\nY\n' | sudo mysql_secure_installation"
     ]
   }
+
+  provisioner "file" {
+    source      = "web-app.zip"
+    destination = "~/"
+  }
+
+  provisioner "shell" {
+      inline =  [
+      "cd ~",
+      "sudo mkdir -p webservice",
+      "sudo chmod 755 webservice",
+      "sudo unzip web-app.zip -d ~/webservice"
+      ]
+  }
+
+
 
 
 }
@@ -58,12 +61,3 @@ source "amazon-ebs" "my-ami" {
     max_attempts  = 60
   }
 }
-
-
-// launch_block_device_mappings = [
-//   {
-//     device_name = "/dev/sda1"
-//     volume_size = 25
-//     volume_type = "gp2"
-//   }
-// ]
