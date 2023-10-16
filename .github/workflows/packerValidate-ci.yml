@@ -22,7 +22,7 @@ jobs:
       - name: Packer init
         run: |
             packer init packer/aws-debian.pkr.hcl
-            
+
       - name: Format Check Pakcer File
         run: |
             if ! packer fmt -check packer/aws-debian.pkr.hcl; then
@@ -36,4 +36,6 @@ jobs:
             echo "Packer validation check failed. Exiting the pipeline."
             exit 1
           fi
+      - name: check path
+        run: pwd
 
