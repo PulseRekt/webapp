@@ -82,7 +82,7 @@ jobs:
           uses: actions/upload-artifact@v2
           with:
                 name: web-app
-                path: ./
+                path: /home/runner/work/webapp/webapp
         
         - name: check path
           run: |

@@ -32,7 +32,7 @@ build {
   }
 
   provisioner "file" {
-    source      = "./"
+    source      = "/home/runner/work/webapp/webapp/web-app.zip"
     destination = "~/"
   }
 
