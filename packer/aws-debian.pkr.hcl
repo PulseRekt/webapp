@@ -43,10 +43,7 @@ variable "ami_users" {
   default     = ["311572683597"]
 }
 
-// resource "aws_instance" "example" {
-//   ami           = "${source.amazon-ebs.my-ami.ami_id}"
-//   instance_type = var.instance_type
-// }
+
 
 variable "aws_instance" {
   type = string
@@ -86,9 +83,6 @@ build {
       "npm install nodemon"
     ]
   }
-
-
-
 }
 
 source "amazon-ebs" "my-ami" {
