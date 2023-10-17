@@ -74,7 +74,8 @@ jobs:
               version: "latest"
 
         - name: Build Artifact
-          run: zip -r web-app.zip .
+          run: zip -r web-app.zip . -x ".git*" -x ".github*"
+            
 
         - name: Publish Web App Artifact
           uses: actions/upload-artifact@v2
