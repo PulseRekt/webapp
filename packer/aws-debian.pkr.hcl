@@ -46,7 +46,7 @@ variable "ami_users" {
 
 
 variable "aws_instance" {
-  type = string
+  type    = string
   default = "ami-06db4d78cb1d3bbf9"
 }
 
