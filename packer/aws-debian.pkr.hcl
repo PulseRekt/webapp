@@ -7,6 +7,47 @@ packer {
   }
 }
 
+variable "profile" {
+  description = "AWS CLI profile name"
+  type        = string
+  default     = "dev"
+}
+
+variable "instance_type" {
+  description = "EC2 instance type"
+  type        = string
+  default     = "t2.micro"
+}
+
+variable "region" {
+  description = "AWS region"
+  type        = string
+  default     = "us-east-1"
+}
+
+variable "source_ami" {
+  description = "Source AMI ID"
+  type        = string
+  default     = "ami-06db4d78cb1d3bbf9"
+}
+
+variable "ssh_username" {
+  description = "SSH username for the source AMI"
+  type        = string
+  default     = "admin"
+}
+
+variable "ami_users" {
+  description = "List of AWS account IDs that can use the resulting AMI"
+  type        = list(string)
+  default     = ["311572683597"]
+}
+
+resource "aws_instance" "example" {
+  ami           = "${source.amazon-ebs.my-ami.ami_id}"
+  instance_type = var.instance_type
+}
+
 build {
   name = "packer"
   sources = [
@@ -46,14 +87,14 @@ build {
 }
 
 source "amazon-ebs" "my-ami" {
-  profile       = "dev"
-  ami_name      = "my-ami_${formatdate("YYYY_MM_DD_hh_mm_ss", timestamp())}"
-  instance_type = "t2.micro"
-  region        = "us-east-1"
-  source_ami    = "ami-06db4d78cb1d3bbf9"
-  ssh_username  = "admin"
+  profile       = var.profile
+  ami_name      = var.ami_name
+  instance_type = var.instance_type
+  region        = var.region
+  source_ami    = var.source_ami
+  ssh_username  = var.ssh_username
   // security_group_id = "sg-0997c39dda94141f9"
-  ami_users = ["311572683597"]
+  ami_users = var.ami_users
 
   // access_key = "${var.acceskey}"
   // secret_key = "${var.secretkey}"
