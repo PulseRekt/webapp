@@ -43,9 +43,14 @@ variable "ami_users" {
   default     = ["311572683597"]
 }
 
-resource "aws_instance" "example" {
-  ami           = "${source.amazon-ebs.my-ami.ami_id}"
-  instance_type = var.instance_type
+// resource "aws_instance" "example" {
+//   ami           = "${source.amazon-ebs.my-ami.ami_id}"
+//   instance_type = var.instance_type
+// }
+
+variable "aws_instance" {
+  type = string
+  default = "ami-06db4d78cb1d3bbf9"
 }
 
 build {
