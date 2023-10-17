@@ -43,6 +43,11 @@ variable "ami_users" {
   default     = ["311572683597"]
 }
 
+variable "ami_name" {
+  type = string
+  default = "my-ami_${formatdate("YYYY_MM_DD_hh_mm_ss",timestamp())}"
+}
+
 
 
 variable "aws_instance" {
