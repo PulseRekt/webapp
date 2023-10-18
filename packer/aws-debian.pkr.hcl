@@ -80,21 +80,22 @@ build {
   ]
 
   provisioner "shell" {
-    inline = [
-      "sudo apt-get update",
-      "sudo apt-get upgrade -y",
-      "sudo apt-get install -y software-properties-common",
-      "sudo apt install nodejs npm -y",
-      "sudo apt install -y zip",
-      "sudo apt install -y mariadb-server",
-      "echo -e 'Y\nThenothing1!\nThenothing1!\nY\nY\nY\nY\n' | sudo mysql_secure_installation",
-      "export DB_HOST=${var.DB_HOST}",
-      "export DB_PORT=${var.DB_PORT}",
-      "export DB_DATABASE=${var.DB_DATABASE}",
-      "export DB_USERNAME=${var.DB_USERNAME}",
-      "export DB_PASSWORD=${var.DB_PASSWORD}",
-      "export FILE_PATH=${var.FILE_PATH}",
-    ]
+   inline = [
+    "sudo apt-get update",
+    "sudo apt-get upgrade -y",
+    "sudo apt-get install -y software-properties-common",
+    "sudo apt install nodejs npm -y",
+    "sudo apt install -y zip",
+    "sudo apt install -y mariadb-server",
+    "sudo mysql -u root -e \"ALTER USER 'root'@'localhost' IDENTIFIED BY 'Thenothing1\!';\"",
+    "export DB_HOST=${var.DB_HOST}",
+    "export DB_PORT=${var.DB_PORT}",
+    "export DB_DATABASE=${var.DB_DATABASE}",
+    "export DB_USERNAME=${var.DB_USERNAME}",
+    "export DB_PASSWORD=${var.DB_PASSWORD}",
+    "export FILE_PATH=${var.FILE_PATH}",
+]
+
   }
 
 
