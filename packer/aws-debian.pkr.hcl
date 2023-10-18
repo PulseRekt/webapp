@@ -121,7 +121,7 @@ source "amazon-ebs" "my-ami" {
   region        = var.region
   source_ami    = var.source_ami
   ssh_username  = var.ssh_username
-  ami_users = var.ami_users
+  ami_users     = var.ami_users
 
 
   aws_polling {
