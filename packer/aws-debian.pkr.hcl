@@ -68,10 +68,6 @@ variable "FILE_PATH" {
   default = ""
 }
 
-
-
-
-
 variable "aws_instance" {
   type    = string
   default = "ami-06db4d78cb1d3bbf9"
@@ -125,11 +121,8 @@ source "amazon-ebs" "my-ami" {
   region        = var.region
   source_ami    = var.source_ami
   ssh_username  = var.ssh_username
-  // security_group_id = "sg-0997c39dda94141f9"
-  ami_users = var.ami_users
+  ami_users     = var.ami_users
 
-  // access_key = "${var.acceskey}"
-  // secret_key = "${var.secretkey}"
 
   aws_polling {
     delay_seconds = 60
