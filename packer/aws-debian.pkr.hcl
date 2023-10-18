@@ -87,7 +87,7 @@ build {
     "sudo apt install nodejs npm -y",
     "sudo apt install -y zip",
     "sudo apt install -y mariadb-server",
-    "sudo mysql -u root -e \"ALTER USER 'root'@'localhost' IDENTIFIED BY 'Thenothing1\!';\"",
+    "sudo mysql -u root -e \"ALTER USER 'root'@'localhost' IDENTIFIED BY 'Thenothing1\\!';\"",
     "export DB_HOST=${var.DB_HOST}",
     "export DB_PORT=${var.DB_PORT}",
     "export DB_DATABASE=${var.DB_DATABASE}",
