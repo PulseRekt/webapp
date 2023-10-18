@@ -73,6 +73,21 @@ variable "aws_instance" {
   default = "ami-06db4d78cb1d3bbf9"
 }
 
+variable "ami_filter_owners" {
+  type    = list(string)
+  default = ["aws-marketplace"]
+}
+
+variable "ami_filter_name" {
+  type    = string
+  default = "debian-12-*"
+}
+
+variable "ami_filter_architecture" {
+  type    = string
+  default = "x86_64"
+}
+
 build {
   name = "packer"
   sources = [
@@ -122,11 +137,12 @@ source "amazon-ebs" "my-ami" {
   region        = var.region
   // source_ami    = var.source_ami
   source_ami_filter {
-    owners = ["aws-marketplace"]
+    owners = var.ami_filter_owners
+
 
     filters = {
-      name         = "debian-12-*"
-      architecture = "x86_64"
+      name         = var.ami_filter_name
+      architecture = var.ami_filter_architecture
       state        = "available"
     }
     most_recent = true
