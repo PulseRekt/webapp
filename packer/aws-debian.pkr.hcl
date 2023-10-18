@@ -44,6 +44,31 @@ variable "ami_users" {
 }
 
 
+variable "DB_HOST" {
+  default = ""
+}
+
+variable "DB_PORT" {
+  default = ""
+}
+
+variable "DB_DATABASE" {
+  default = ""
+}
+
+variable "DB_USERNAME" {
+  default = ""
+}
+
+variable "DB_PASSWORD" {
+  default = ""
+}
+
+variable "FILE_PATH" {
+  default = ""
+}
+
+
 
 
 
@@ -67,12 +92,12 @@ build {
       "sudo apt install -y zip",
       "sudo apt install -y mariadb-server",
       "echo -e 'Y\nThenothing1!\nThenothing1!\nY\nY\nY\nY\n' | sudo mysql_secure_installation",
-      "export DB_HOST=${DB_HOST}",
-      "export DB_PORT=${DB_PORT}",
-      "export DB_DATABASE=${DB_DATABASE}",
-      "export DB_USERNAME=${DB_USERNAME}",
-      "export DB_PASSWORD=${DB_PASSWORD}",
-      "export FILE_PATH=${FILE_PATH}",
+      "export DB_HOST=${var.DB_HOST}",
+      "export DB_PORT=${var.DB_PORT}",
+      "export DB_DATABASE=${var.DB_DATABASE}",
+      "export DB_USERNAME=${var.DB_USERNAME}",
+      "export DB_PASSWORD=${var.DB_PASSWORD}",
+      "export FILE_PATH=${var.FILE_PATH}",
     ]
   }
 
