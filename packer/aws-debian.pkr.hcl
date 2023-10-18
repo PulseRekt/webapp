@@ -139,6 +139,7 @@ source "amazon-ebs" "my-ami" {
   source_ami_filter {
     owners = var.ami_filter_owners
 
+
     filters = {
       name         = var.ami_filter_name
       architecture = var.ami_filter_architecture
