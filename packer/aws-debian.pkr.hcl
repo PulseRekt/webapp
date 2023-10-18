@@ -120,9 +120,18 @@ source "amazon-ebs" "my-ami" {
   ami_name      = "my-ami_${formatdate("YYYY_MM_DD_hh_mm_ss", timestamp())}"
   instance_type = var.instance_type
   region        = var.region
-  source_ami    = var.source_ami
-  ssh_username  = var.ssh_username
-  ami_users     = var.ami_users
+  // source_ami    = var.source_ami
+  source_ami_filter {
+    owners = ["379101102735"]
+    filters = {
+      name         = "debian-12-*"
+      architecture = "x86_64"
+      state        = "available"
+    }
+    most_recent = true
+  }
+  ssh_username = var.ssh_username
+  ami_users    = var.ami_users
 
 
   aws_polling {
