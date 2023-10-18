@@ -122,7 +122,7 @@ source "amazon-ebs" "my-ami" {
   region        = var.region
   // source_ami    = var.source_ami
   source_ami_filter {
-    // owners = ["379101102735"]
+    owners = ["aws-marketplace"]
     filters = {
       name         = "debian-12-*"
       architecture = "x86_64"
