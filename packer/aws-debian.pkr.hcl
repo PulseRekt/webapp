@@ -123,6 +123,7 @@ source "amazon-ebs" "my-ami" {
   // source_ami    = var.source_ami
   source_ami_filter {
     // owners = ["379101102735"]
+
     filters = {
       name         = "debian-12-*"
       architecture = "x86_64"
