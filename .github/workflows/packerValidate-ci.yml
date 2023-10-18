@@ -1,0 +1,44 @@
+name: packerValidate-ci
+
+on:
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    name: packerValidate-ci
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@main
+        id: setup
+        with:
+          version: "latest"
+
+      - name: Build Artifact
+        run: zip -r web-app.zip .
+
+      - name: Packer init
+        run: |
+            packer init packer/aws-debian.pkr.hcl
+
+      - name: Format Check Pakcer File
+        run: |
+            if ! packer fmt -check packer/aws-debian.pkr.hcl; then
+              echo "Packer file formatting check failed. Exiting the pipeline."
+              exit 1
+            fi
+            
+      - name: Validate Packer File
+        run: |
+          if ! packer validate packer/aws-debian.pkr.hcl; then
+            echo "Packer validation check failed. Exiting the pipeline."
+            exit 1
+          fi
+      - name: check path
+        run: pwd
+
