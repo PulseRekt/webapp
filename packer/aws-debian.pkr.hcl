@@ -132,7 +132,13 @@ build {
       "ls -a",
       "cd /opt/web-app",
       "sudo npm install",
-      "sudo npm install nodemon"
+      "sudo npm install nodemon",
+      "systemctl daemon-reload",
+      "sudo systemctl enable web-app",
+      "sudo systemctl start web-app",
+      "sudo systemctl restart web-app",
+      "sudo systemctl stop web-app",
+
     ]
   }
 }
