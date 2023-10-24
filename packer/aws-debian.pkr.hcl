@@ -121,7 +121,7 @@ build {
   }
 
   provisioner "file" {
-    source      = "/systemd/web-app.service"
+    source      = "./systemd/web-app.service"
     destination = "/etc/systemd/system"
   }
 
