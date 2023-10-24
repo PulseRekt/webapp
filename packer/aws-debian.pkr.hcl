@@ -122,11 +122,12 @@ build {
 
   provisioner "file" {
     source      = "./systemd/web-app.service"
-    destination = "/etc/systemd/system/web-app.service"
+    destination = "/tmp/web-app.service"
   }
 
   provisioner "shell" {
     inline = [
+      "sudo mv /tmp/web-app.service /etc/systemd/system/web-app.service",
       "unzip web-app.zip -d web-app",
       "ls -a",
       "cd web-app",
