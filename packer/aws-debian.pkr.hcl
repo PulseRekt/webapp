@@ -119,8 +119,8 @@ build {
     destination = "~/"
   }
 
-  provisioner "file"{
-    source = "../systemd/web-app.service"
+  provisioner "file" {
+    source       = "../systemd/web-app.service"
     destiination = "/etc/systemd/system"
   }
 
