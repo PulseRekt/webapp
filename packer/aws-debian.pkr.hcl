@@ -131,7 +131,7 @@ build {
 }
 
 source "amazon-ebs" "my-ami" {
-  profile       = var.profiles
+  profile       = var.profile
   ami_name      = "my-ami_${formatdate("YYYY_MM_DD_hh_mm_ss", timestamp())}"
   instance_type = var.instance_type
   region        = var.region
