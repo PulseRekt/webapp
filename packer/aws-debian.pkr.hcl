@@ -131,8 +131,8 @@ build {
       "sudo unzip web-app.zip -d /opt/web-app",
       "ls -a",
       "cd /opt/web-app",
-      "npm install",
-      "npm install nodemon"
+      "sudo npm install",
+      "sudo npm install nodemon"
     ]
   }
 }
