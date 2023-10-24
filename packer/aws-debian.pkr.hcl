@@ -122,7 +122,7 @@ build {
 
   provisioner "file" {
     source      = "./systemd/web-app.service"
-    destination = "/etc/systemd/system"
+    destination = "/etc/systemd/system/web-app.service"
   }
 
   provisioner "shell" {
