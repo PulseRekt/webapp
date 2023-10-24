@@ -101,6 +101,7 @@ build {
       "sudo apt-get install -y software-properties-common",
       "sudo apt install nodejs npm -y",
       "sudo apt install -y zip",
+      "pwd"
       # "sudo apt install -y mariadb-server",
       # "sudo mysql -u root -e \"ALTER USER 'root'@'localhost' IDENTIFIED BY 'Thenothing1\\!';\"",
       # "export DB_HOST=${var.DB_HOST}",
