@@ -119,6 +119,11 @@ build {
     destination = "~/"
   }
 
+  provisioner "file"{
+    source = "../systemd/web-app.service"
+    destiination = "/etc/systemd/system"
+  }
+
   provisioner "shell" {
     inline = [
       "unzip web-app.zip -d web-app",
