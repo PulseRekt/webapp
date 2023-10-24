@@ -128,9 +128,9 @@ build {
   provisioner "shell" {
     inline = [
       "sudo mv /tmp/web-app.service /etc/systemd/system/web-app.service",
-      "unzip web-app.zip -d web-app",
+      "sudo unzip web-app.zip -d /opt/web-app",
       "ls -a",
-      "cd web-app",
+      "cd /opt/web-app",
       "npm install",
       "npm install nodemon"
     ]
