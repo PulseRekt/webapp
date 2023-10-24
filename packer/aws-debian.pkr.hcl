@@ -7,7 +7,7 @@ packer {
   }
 }
 
-variable "profile" {
+variable "profile"   {
   description = "AWS CLI profile name"
   type        = string
   default     = "dev"
