@@ -132,17 +132,5 @@ jobs:
                       
         - name: Build AMI
           run: |
-                pwd
-                packer build packer/aws-debian.pkr.hcl
-
-
-
-
-
-
-     
-
-
-
-
-    
+                cd packer
+                packer build --var-file=variable.pkrvars.hcl aws-debian.pkr.hcl
