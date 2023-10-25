@@ -75,14 +75,14 @@ jobs:
           with:
               version: "latest"
 
-        - name: setup .env
-          run: |
-            echo "DB_HOST=127.0.0.1" >> .env
-            echo "DB_PORT=3306" >> .env
-            echo "DB_DATABASE=cloud" >> .env
-            echo "DB_USERNAME=root" >> .env
-            echo "DB_PASSWORD=Thenothing1!" >> .env
-            echo "FILE_PATH=./opt/users.csv" >> .env
+        # - name: setup .env
+        #   run: |
+        #     echo "DB_HOST=127.0.0.1" >> .env
+        #     echo "DB_PORT=3306" >> .env
+        #     echo "DB_DATABASE=cloud" >> .env
+        #     echo "DB_USERNAME=root" >> .env
+        #     echo "DB_PASSWORD=Thenothing1!" >> .env
+        #     echo "FILE_PATH=./opt/users.csv" >> .env
           
           
 
