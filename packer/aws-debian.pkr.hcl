@@ -104,12 +104,12 @@ build {
     ]
   }
   provisioner "file" {
-    source      = "web-app.zip"
+    source      = "/home/runner/work/webapp/webapp/web-app.zip"
     destination = "~/"
   }
 
   provisioner "file" {
-    source      = "./systemd/web-app.service"
+    source      = "/home/runner/work/webapp/webapp/systemd/web-app.service"
     destination = "/tmp/web-app.service"
   }
 
