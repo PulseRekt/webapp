@@ -31,7 +31,11 @@ variable "source_ami" {
   default     = "ami-06db4d78cb1d3bbf9"
 }
 
-variable "ssh_username" {}
+variable "ssh_username" {
+  description = "SSH username for the source AMI"
+  type        = string
+  default     = "admin"
+}
 
 variable "ami_users" {
   description = "List of AWS account IDs that can use the resulting AMI"
@@ -120,7 +124,7 @@ build {
       # "systemctl daemon-reload",
       "sudo groupadd csye6225",
       "sudo useradd -s /bin/false -g csye6225 -d /opt/csye6225 -m csye6225",
-      "sudo chown -R csye6225:csye6225 /opt/web-app",
+      "sudo chown -Rcsye6225:csye6225 /opt/web-app",
       "sudo chmod g+x server.js",
 
       "sudo systemctl enable web-app",
