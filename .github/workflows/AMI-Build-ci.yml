@@ -134,3 +134,5 @@ jobs:
           run: |
                 cd packer
                 packer build --var-file=variable.pkrvars.hcl aws-debian.pkr.hcl
+
+
