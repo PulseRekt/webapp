@@ -133,7 +133,8 @@ jobs:
         - name: Build AMI
           run: |
                 pwd
-                packer build --var-file=/home/runner/work/webapp/webapp/packer/variable.pkvars.hcl /home/runner/work/webapp/webapp/packer/aws-debian.pkr.hcl
+                packer build packer/aws-debian.pkr.hcl
+
 
 
 
