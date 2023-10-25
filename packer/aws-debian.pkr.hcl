@@ -31,11 +31,7 @@ variable "source_ami" {
   default     = "ami-06db4d78cb1d3bbf9"
 }
 
-variable "ssh_username" {
-  description = "SSH username for the source AMI"
-  type        = string
-  default     = "admin"
-}
+variable "ssh_username" {}
 
 variable "ami_users" {
   description = "List of AWS account IDs that can use the resulting AMI"
