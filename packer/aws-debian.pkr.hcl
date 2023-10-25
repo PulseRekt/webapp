@@ -101,14 +101,15 @@ build {
       "sudo apt-get install -y software-properties-common",
       "sudo apt install nodejs npm -y",
       "sudo apt install -y zip",
-      "sudo apt install -y mariadb-server",
-      "sudo mysql -u root -e \"ALTER USER 'root'@'localhost' IDENTIFIED BY 'Thenothing1\\!';\"",
-      "export DB_HOST=${var.DB_HOST}",
-      "export DB_PORT=${var.DB_PORT}",
-      "export DB_DATABASE=${var.DB_DATABASE}",
-      "export DB_USERNAME=${var.DB_USERNAME}",
-      "export DB_PASSWORD=${var.DB_PASSWORD}",
-      "export FILE_PATH=${var.FILE_PATH}",
+      "pwd"
+      # "sudo apt install -y mariadb-server",
+      # "sudo mysql -u root -e \"ALTER USER 'root'@'localhost' IDENTIFIED BY 'Thenothing1\\!';\"",
+      # "export DB_HOST=${var.DB_HOST}",
+      # "export DB_PORT=${var.DB_PORT}",
+      # "export DB_DATABASE=${var.DB_DATABASE}",
+      # "export DB_USERNAME=${var.DB_USERNAME}",
+      # "export DB_PASSWORD=${var.DB_PASSWORD}",
+      # "export FILE_PATH=${var.FILE_PATH}",
     ]
 
   }
@@ -119,13 +120,30 @@ build {
     destination = "~/"
   }
 
+  provisioner "file" {
+    source      = "./systemd/web-app.service"
+    destination = "/tmp/web-app.service"
+  }
+
   provisioner "shell" {
     inline = [
-      "unzip web-app.zip -d web-app",
+      "sudo mv /tmp/web-app.service /etc/systemd/system/web-app.service",
+      "sudo unzip web-app.zip -d /opt/web-app",
       "ls -a",
-      "cd web-app",
-      "npm install",
-      "npm install nodemon"
+      "cd /opt/web-app",
+      "sudo npm install",
+      "sudo npm install nodemon",
+      # "systemctl daemon-reload",
+      "sudo groupadd csye6225",
+      "sudo useradd -s /bin/false -g csye6225 -d /opt/csye6225 -m csye6225",
+      "sudo chown csye6225:csye6225 /opt/web-app",
+      "sudo chmod g+x server.js",
+
+      "sudo systemctl enable web-app",
+      "sudo systemctl start web-app",
+      "sudo systemctl restart web-app",
+      "sudo systemctl stop web-app",
+
     ]
   }
 }

@@ -1,0 +1,20 @@
+[Unit]
+Description=web-app.js
+ConditionPathExists=/opt/web-app
+After=network.target
+
+[Service]
+Environment=NODE_PORT=8080
+Type=simple
+User=csye6225
+Group= csye6225
+WorkingDirectory=/opt/web-app/
+ExecStart=/usr/bin/node /opt/web-app/server.js
+Restart= always
+RestartSec = 3
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=syslog
+
+[Install]
+WantedBy=multi-user.target
