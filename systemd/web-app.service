@@ -1,7 +1,8 @@
 [Unit]
 Description=web-app.js
 ConditionPathExists=/opt/web-app
-After=network.target
+After=network.target cloud-init-local.service
+
 
 [Service]
 Environment=NODE_PORT=8080
