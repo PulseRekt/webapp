@@ -3,6 +3,7 @@ import { badRequest, notFound } from "../controller/healthCheckController.js";
 import assignmentRouter from "./assingmentRoute.js";
 import router from "./healthCheckRoute.js";
 import handleBasicAuthentication from "../security/authentication.js";
+import { getStatsdMiddleware } from "../statsD/statsdClient.js";
 // import 'basic-auth-connect'
 
 const route = (app)=>{
@@ -11,8 +12,10 @@ const route = (app)=>{
         res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
         next();
     });
-    
 
+    const statsdMiddleware = getStatsdMiddleware();
+
+    
     app.use('/healthz',router);
 
 

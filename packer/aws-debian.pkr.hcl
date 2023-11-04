@@ -119,9 +119,15 @@ build {
     destination = "/tmp/web-app.service"
   }
 
+  provisioner "file" {
+    source      = "/home/runner/work/webapp/webapp/cloudWatchConfig/cloudwatch-config.json"
+    destination = "/tmp/cloudwatch-config.json"
+  }
+
   provisioner "shell" {
     inline = [
       "sudo mv /tmp/web-app.service /etc/systemd/system/web-app.service",
+      "sudo mv /tmp/cloudwatch-config.json /opt/aws/amazon-cloudwatch-agent/etc/cloudwatch-config.json",
       "sudo unzip web-app.zip -d /opt/web-app",
       "ls -a",
       "cd /opt/web-app",

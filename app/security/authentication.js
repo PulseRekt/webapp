@@ -1,3 +1,4 @@
+import logger from "../../logger/logger.js";
 import { findUserByNameAndPass } from "../service/userService.js";
 import bcrypt from 'bcrypt';
 
