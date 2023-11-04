@@ -101,6 +101,12 @@ build {
       "sudo apt-get install -y software-properties-common",
       "sudo apt install nodejs npm -y",
       "sudo apt install -y zip",
+      "wget https://amazoncloudwatch-agent.s3.amazonaws.com/debian/amd64/latest/amazon-cloudwatch-agent.deb",
+      "sudo dpkg -i amazon-cloudwatch-agent.deb",
+      "sudo systemctl start amazon-cloudwatch-agent",
+      "sudo systemctl enable amazon-cloudwatch-agent"
+
+
     ]
   }
   provisioner "file" {
