@@ -8,22 +8,30 @@ const handleBasicAuthentication = async(headerString) => {
       const [username, password] = credentials.split(':');
 
       const user = await findUserByNameAndPass(username);
+      logger.info(`User '${username}' attempted authentication.`);
+
       console.log("inside authentication");
 
     try {
         const match = await bcrypt.compare(password, user.password);
     
         if (match) {
+          logger.info(`User '${username}' authenticated successfully.`);
+
           console.log('Authenticated successfully');
           return {
             authenticated: true,
             userId:user.id
           };
         } else {
+          logger.warn(`User '${username}' authentication failed - Incorrect password.`);
+
           console.log('Password is incorrect');
           return { authenticated: false };
         }
       } catch (error) {
+        logger.error(`Error during authentication for user '${username}': ${error}`);
+
         console.error('Error comparing passwords:', error);
         return { authenticated: false };
       }
