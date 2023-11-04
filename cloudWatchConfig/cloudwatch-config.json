@@ -8,12 +8,16 @@
             "files": {
                 "collect_list": [
                     {
-                        "file_path": "/var/log/tomcat9/csye6225.log",
+
+                        "file_path": "/opt/web-app/auth.log",
+
                         "log_group_name": "csye6225",
                         "log_stream_name": "webapp"
                     },
                     {
-                        "file_path":"/var/log/something.log",
+
+                        "file_path":"/opt/web-app/error.log",
+
                         "log_group_name":"error",
                         "log_stream_name":"webapp-error"
                     }
