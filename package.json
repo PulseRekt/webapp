@@ -13,6 +13,8 @@
     "dependencies": {
         "@babel/preset-env": "^7.22.20",
         "babel-jest": "^29.7.0",
+        "basic-auth": "^2.0.1",
+        "basic-auth-connect": "^1.0.0",
         "bcrypt": "^5.1.1",
         "cors": "^2.8.5",
         "csv-parser": "^3.0.0",

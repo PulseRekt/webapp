@@ -1,6 +1,9 @@
+import basicAuth from "basic-auth-connect";
 import { badRequest, notFound } from "../controller/healthCheckController.js";
 import assignmentRouter from "./assingmentRoute.js";
 import router from "./healthCheckRoute.js";
+import handleBasicAuthentication from "../security/authentication.js";
+// import 'basic-auth-connect'
 
 const route = (app)=>{
 
@@ -12,7 +15,20 @@ const route = (app)=>{
 
     app.use('/healthz',router);
 
-    app.use('/v1/assignments',assignmentRouter)
+
+
+    app.use('/v1/assignments', async (req, res, next) => {
+        const headerString = req.headers.authorization;
+    
+        const authResult = await handleBasicAuthentication(headerString);
+    
+        if (authResult.authenticated) {
+          next();
+        } else {
+          res.set('WWW-Authenticate', 'Basic realm="Secure Area"');
+          res.status(401).send('Unauthorized: Authentication failed');
+        }
+      }, assignmentRouter);
 
     app.all('*',badRequest);
 }
