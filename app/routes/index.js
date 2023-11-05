@@ -14,6 +14,7 @@ const route = (app)=>{
     });
 
     const statsdMiddleware = getStatsdMiddleware();
+    app.use(statsdMiddleware);
 
     
     app.use('/healthz',router);
