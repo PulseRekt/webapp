@@ -9,6 +9,7 @@ const statsdClient = new StatsD({
 export const getStatsdMiddleware = () => {
   return (req, res, next) => {
     const metricName = `api.${req.method.toLowerCase()}.${req.originalUrl}`; 
+    console.log(metricName);
     statsdClient.increment(metricName); 
     next();
   };

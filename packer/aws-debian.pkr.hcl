@@ -127,7 +127,7 @@ build {
   provisioner "shell" {
     inline = [
       "sudo mv /tmp/web-app.service /etc/systemd/system/web-app.service",
-      "sudo mv /tmp/cloudwatch-config.json /opt/aws/amazon-cloudwatch-agent/etc/cloudwatch-config.json",
+      "sudo mv /tmp/cloudwatch-config.json /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json",
       "sudo unzip web-app.zip -d /opt/web-app",
       "ls -a",
       "cd /opt/web-app",
