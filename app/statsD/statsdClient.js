@@ -1,9 +1,9 @@
 import { StatsD } from 'hot-shots';
 
 const statsdClient = new StatsD({
-  host: '127.0.0.1', // StatsD server host
-  port: 8125, // StatsD server port
-  prefix: 'web-app.' // Metric key prefix
+  host: '127.0.0.1', 
+  port: 8125, 
+  prefix: 'web-app.'
 });
 
 export const getStatsdMiddleware = () => {
