@@ -9,7 +9,7 @@ const handleBasicAuthentication = async(headerString) => {
       const [username, password] = credentials.split(':');
 
       const user = await findUserByNameAndPass(username);
-      logger.info(`User '${username}' attempted authentication.`);
+      // logger.info(`User '${username}' attempted authentication.`);
 
       console.log("inside authentication");
 
@@ -17,7 +17,7 @@ const handleBasicAuthentication = async(headerString) => {
         const match = await bcrypt.compare(password, user.password);
     
         if (match) {
-          logger.info(`User '${username}' authenticated successfully.`);
+          // logger.info(`User '${username}' authenticated successfully.`);
 
           console.log('Authenticated successfully');
           return {
