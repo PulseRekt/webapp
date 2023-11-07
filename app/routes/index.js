@@ -9,7 +9,7 @@ import { getStatsdMiddleware } from "../statsD/statsdClient.js";
 const route = (app)=>{
 
     app.use((req, res, next) => {
-        res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
         next();
     });
 
