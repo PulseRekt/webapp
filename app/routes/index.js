@@ -16,7 +16,7 @@ const route = (app)=>{
     const statsdMiddleware = getStatsdMiddleware();
     app.use(statsdMiddleware);
 
-    
+
     app.use('/healthz',router);
 
 
@@ -33,6 +33,9 @@ const route = (app)=>{
           res.status(401).send('Unauthorized: Authentication failed');
         }
       }, assignmentRouter);
+
+    app.use('/',router);
+
 
     app.all('*',badRequest);
 }
