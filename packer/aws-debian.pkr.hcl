@@ -142,7 +142,8 @@ build {
       "sudo systemctl enable web-app",
       "sudo systemctl start web-app",
       "sudo systemctl restart web-app",
-      "sudo systemctl stop web-app",
+      # "sudo systemctl stop web-app",
+      "sudo systemctl daemon-reload"
 
     ]
   }
