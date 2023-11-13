@@ -2,7 +2,6 @@
 Description=web-app.js
 ConditionPathExists=/opt/web-app
 After=network.target cloud-init-local.service
-Requires=cloud-init.service
 
 
 [Service]
