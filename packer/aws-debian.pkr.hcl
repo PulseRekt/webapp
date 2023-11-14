@@ -138,7 +138,7 @@ build {
       "sudo useradd -s /bin/false -g csye6225 -d /opt/csye6225 -m csye6225",
       "sudo chown -R csye6225:csye6225 /opt/web-app",
       "sudo chmod g+x server.js",
-      "sudo systemctl daemon-reload",
+      # "sudo systemctl daemon-reload",
       "sudo systemctl enable web-app",
       "sudo systemctl start web-app",
       "sudo systemctl restart web-app",
