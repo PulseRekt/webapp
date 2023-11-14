@@ -2,7 +2,6 @@
 Description=web-app.js
 ConditionPathExists=/opt/web-app
 After=network.target cloud-init-local.service
-Requires=cloud-init.service
 
 
 [Service]
@@ -13,7 +12,7 @@ Group= csye6225
 WorkingDirectory=/opt/web-app/
 ExecStart=/usr/bin/node /opt/web-app/server.js
 Restart= always
-RestartSec = 3
+RestartSec = 20
 StandardOutput=syslog
 StandardError=syslog
 SyslogIdentifier=syslog

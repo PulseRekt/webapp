@@ -18,6 +18,7 @@ async function initialize() {
       console.log('CSV parsing and data insertion completed successfully.');
     } catch (error) {
       console.error('Error during CSV parsing and data insertion:', error);
+      process.exit(1);
     }
   }
 
