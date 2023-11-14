@@ -18,4 +18,4 @@ StandardError=syslog
 SyslogIdentifier=syslog
 
 [Install]
-WantedBy=cloud-init.target
+WantedBy=multi-user.target
