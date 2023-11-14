@@ -1,7 +1,7 @@
 [Unit]
 Description=web-app.js
 ConditionPathExists=/opt/web-app
-After=network.target cloud-init-local.service
+After=network.target cloud-final.service
 
 
 [Service]
@@ -19,4 +19,4 @@ StandardError=syslog
 SyslogIdentifier=syslog
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=cloud-init.target
