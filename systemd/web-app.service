@@ -6,7 +6,6 @@ After=network.target cloud-final.service
 
 [Service]
 Environment=NODE_PORT=8080
-EnvironmentFile=/opt/web-app/.env
 Type=simple
 User=csye6225
 Group= csye6225
