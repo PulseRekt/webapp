@@ -1,7 +1,7 @@
 name: AMI-Build-ci
 
 on:
-  pull_request:
+  push:
     branches: ["main"]
     
 jobs:
