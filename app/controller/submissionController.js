@@ -48,9 +48,14 @@ export const createSubmission = async(req,res,next)=>{
                 console.log(count);
                 if (assignment.num_of_attempts > count){
 
-
-                    await ss.createSubmission(Sub);
-                    return res.status(201).send("Submission Accepted");
+                    if (assignment.deadline && new Date() <= new Date(assignment.deadline)) {
+                        await ss.createSubmission(Sub);
+                        return res.status(201).send("Submission Accepted");
+                    } else {
+                        logger.error("Assignment past due date or no deadline specified");
+                        return res.status(403).send("Assignment past due date or no deadline specified");
+                    }
+                    
 
                 }
                 else{
