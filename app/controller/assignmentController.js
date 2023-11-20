@@ -28,7 +28,6 @@ const validateAssignment = (assignment) => {
 const isValidDate = (dateString) => {
   const date = new Date(dateString);
 
-  // Check if the date is valid and not equal to NaN
   return !isNaN(date.getTime());
 };
 
