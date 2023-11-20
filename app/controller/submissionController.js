@@ -1,16 +1,14 @@
 import logger from "../../logger/logger.js";
 import Submission from "../model/Submission.js";
-import { getAssignmentById } from "../service/assignmentService.js";
+import { countAssignmentById, getAssignmentById } from "../service/assignmentService.js";
 import handleBasicAuthentication from '../security/authentication.js'
 import * as ss from '../service/submissonService.js'
 
 export const createSubmission = async(req,res,next)=>{
-    // console.log("inside submision")
     try{
         if (Object.keys(req.query).length === 0) {
             const token = req.headers.authorization;
             const id = req.params.id;
-            console.log(id);
       
             if (!token) {
               logger.error('Unauthorized: Missing Authorization Token');
@@ -18,7 +16,6 @@ export const createSubmission = async(req,res,next)=>{
             }
       
             const credentials = await handleBasicAuthentication(token);
-            console.log("inside if");
 
             if (!credentials.authenticated) {
               logger.error('Unauthorized: Invalid Credentials');
@@ -26,15 +23,13 @@ export const createSubmission = async(req,res,next)=>{
             }
       
             const body = req.body;
-            // console.log(body);
 
             const assignment = await getAssignmentById(id);
             if (!assignment) {
                 logger.error('Not Found: Assignment not found');
                 return res.status(404).send('Not Found: Assignment not found');
               }
-              console.log("userId:"+credentials.userId);
-              console.log("assingmentUserId"+assignment.userId);
+
 
             if (assignment.userId === credentials.userId) {
                 if (!req.body || Object.keys(req.body).length === 0) {
@@ -45,15 +40,24 @@ export const createSubmission = async(req,res,next)=>{
                 const Sub = Submission.build(
                     {
                         assignment_id:id,
-                        submission_url:body.url
+                        submission_url:body.submission_url
                     }
                 );
-                // Sub.assignment_id = id;
-                // Sub.submission_url = body.url;
+
+                const count = await ss.countAssignmentById(id);
+                console.log(count);
+                if (assignment.num_of_attempts > count){
 
 
-                await ss.createSubmission(Sub);
-                return res.status(201).send("Submission Accepted");
+                    await ss.createSubmission(Sub);
+                    return res.status(201).send("Submission Accepted");
+
+                }
+                else{
+                    logger.error("Assignments Attempts Reached");
+                    return res.status(403).send("Assignment Attempts Reached");
+                }
+
 
             }
             else{

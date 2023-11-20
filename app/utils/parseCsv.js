@@ -36,7 +36,7 @@ const parseCSV = (csvFilePath) => {
 const insertDataIntoDatabase = async (data) => {
   try {
 
-    User.sync({force:false, alter:true})
+    User.sync({force:true, alter:true})
     Assignment.sync({force:false,alter:true})
     Submission.sync({force:false, alter:true})
     await Promise.all(data.map(async (record) => {
