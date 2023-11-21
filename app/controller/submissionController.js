@@ -45,7 +45,6 @@ export const createSubmission = async(req,res,next)=>{
                 );
 
                 const count = await ss.countAssignmentById(id);
-                console.log(count);
                 if (assignment.num_of_attempts > count){
 
                     if (assignment.deadline && new Date() <= new Date(assignment.deadline)) {
