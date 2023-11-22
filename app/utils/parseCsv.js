@@ -3,6 +3,7 @@ import csv from 'csv-parser';
 import User from '../model/User.js';
 import bcrypt from 'bcrypt';
 import Assignment from '../model/Assignment.js';
+import Submission from '../model/Submission.js';
 
 const parseCSV = (csvFilePath) => {
   return new Promise((resolve, reject) => {
@@ -37,6 +38,7 @@ const insertDataIntoDatabase = async (data) => {
 
     User.sync({force:true, alter:true})
     Assignment.sync({force:false,alter:true})
+    Submission.sync({force:false, alter:true})
     await Promise.all(data.map(async (record) => {
       if (record.password) {
         const saltRounds = 10;

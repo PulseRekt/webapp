@@ -42,3 +42,15 @@ export const updateAssingmentById = async(updatedData,id)=>{
         }
     });
 }
+
+export const countAssignmentById = async (id) => {
+    try {
+        const count = await Assignment.count({
+            where: { id: id },
+        });
+        return count;
+    } catch (error) {
+        console.error('Error counting assignments by ID:', error);
+        throw error; // Re-throw the error to handle it at a higher level if needed
+    }
+};

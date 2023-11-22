@@ -28,7 +28,6 @@ const validateAssignment = (assignment) => {
 const isValidDate = (dateString) => {
   const date = new Date(dateString);
 
-  // Check if the date is valid and not equal to NaN
   return !isNaN(date.getTime());
 };
 
@@ -101,7 +100,7 @@ export const createAssignment = async (req, res, next) => {
 
 export const getAssignments = async (req, res, next) => {
   try {
-    if (Object.keys(req.query).length === 0) {
+    if (req.body.constructor === Object && Object.keys(req.body).length === 0 && Object.keys(req.query).length === 0) {
       const token = req.headers.authorization;
 
       if (!token) {
@@ -194,7 +193,7 @@ export const putAssignment = async (req, res, next) => {
   
   export const deleteAssignmentById = async (req, res, next) => {
     try {
-      if (Object.keys(req.query).length === 0) {
+      if (req.body.constructor === Object && Object.keys(req.body).length === 0 && Object.keys(req.query).length === 0) {
         const token = req.headers.authorization;
         const id = req.params.id;
   
@@ -237,7 +236,7 @@ export const putAssignment = async (req, res, next) => {
   
 export const getAssignmentById = async (req, res, next) => {
   try {
-    if (Object.keys(req.query).length === 0) {
+    if (req.body.constructor === Object && Object.keys(req.body).length === 0 && Object.keys(req.query).length === 0) {
       const token = req.headers.authorization;
       const id = req.params.id;
 
