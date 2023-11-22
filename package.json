@@ -12,6 +12,7 @@
     "license": "ISC",
     "dependencies": {
         "@babel/preset-env": "^7.22.20",
+        "aws-sdk": "^2.1501.0",
         "babel-jest": "^29.7.0",
         "basic-auth": "^2.0.1",
         "basic-auth-connect": "^1.0.0",

@@ -3,6 +3,10 @@ import Submission from "../model/Submission.js";
 import { countAssignmentById, getAssignmentById } from "../service/assignmentService.js";
 import handleBasicAuthentication from '../security/authentication.js'
 import * as ss from '../service/submissonService.js'
+import { snsPublish } from "../utils/snsPublish.js";
+
+const arn = process.env.SNS_ARN;
+
 
 export const createSubmission = async(req,res,next)=>{
     try{
@@ -48,6 +52,9 @@ export const createSubmission = async(req,res,next)=>{
                 if (assignment.num_of_attempts > count){
 
                     if (assignment.deadline && new Date() <= new Date(assignment.deadline)) {
+
+                        snsPublish('testing');
+
                         await ss.createSubmission(Sub);
                         return res.status(201).send("Submission Accepted");
                     } else {
