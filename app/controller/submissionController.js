@@ -7,6 +7,7 @@ import { snsPublish } from "../utils/snsPublish.js";
 
 const arn = process.env.SNS_ARN;
 
+
 export const createSubmission = async(req,res,next)=>{
     try{
         if (Object.keys(req.query).length === 0) {
@@ -53,6 +54,7 @@ export const createSubmission = async(req,res,next)=>{
                     if (assignment.deadline && new Date() <= new Date(assignment.deadline)) {
 
                         snsPublish('testing');
+
                         await ss.createSubmission(Sub);
                         return res.status(201).send("Submission Accepted");
                     } else {
