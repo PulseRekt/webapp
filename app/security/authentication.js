@@ -22,7 +22,8 @@ const handleBasicAuthentication = async(headerString) => {
           console.log('Authenticated successfully');
           return {
             authenticated: true,
-            userId:user.id
+            userId:user.id,
+            email:user.email
           };
         } else {
           logger.warn(`User '${username}' authentication failed - Incorrect password.`);
