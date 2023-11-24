@@ -1,5 +1,6 @@
 import AWS from 'aws-sdk';
-import logger from '../../logger/logger';
+import logger from '../../logger/logger.js';
+
 
 
 
