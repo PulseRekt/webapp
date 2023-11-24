@@ -3,6 +3,7 @@ import logger from '../../logger/logger.js';
 
 
 
+
 export const snsPublish = (message)=>{
 
     const arn = process.env.SNS_ARN
