@@ -53,7 +53,12 @@ export const createSubmission = async(req,res,next)=>{
 
                     if (assignment.deadline && new Date() <= new Date(assignment.deadline)) {
 
-                        snsPublish('testing');
+                        const message = {
+                            submissionUrl: body.submission_url,
+                            email: credentials.email
+                        }
+
+                        snsPublish(message);
 
                         await ss.createSubmission(Sub);
                         return res.status(201).send("Submission Accepted");

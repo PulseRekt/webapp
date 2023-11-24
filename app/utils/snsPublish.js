@@ -3,6 +3,9 @@ import logger from '../../logger/logger.js';
 
 
 
+AWS.config.update({
+  region: 'us-east-1',
+});
 export const snsPublish = (message)=>{
 
     const arn = process.env.SNS_ARN
