@@ -3,6 +3,7 @@ import logger from '../../logger/logger.js';
 
 
 
+
 AWS.config.update({
   region: 'us-east-1',
 });
