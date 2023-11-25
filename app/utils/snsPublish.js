@@ -11,9 +11,10 @@ export const snsPublish = (message)=>{
 
     const arn = process.env.SNS_ARN
 
+  const stringMessage = JSON.stringify(message);
 
 var params = {
-    Message: message,
+    Message: stringMessage,
     TopicArn: arn
   };
 
