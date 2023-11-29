@@ -35,7 +35,6 @@ export const createSubmission = async(req,res,next)=>{
               }
 
 
-            if (assignment.userId === credentials.userId) {
                 if (!req.body || Object.keys(req.body).length === 0) {
                     logger.error('Bad Request: Empty request body');
                     return res.status(400).send(); 
@@ -44,11 +43,12 @@ export const createSubmission = async(req,res,next)=>{
                 const Sub = Submission.build(
                     {
                         assignment_id:id,
-                        submission_url:body.submission_url
+                        submission_url:body.submission_url,
+                        user_id:credentials.userId
                     }
                 );
 
-                const count = await ss.countAssignmentById(id);
+                const count = await ss.countAssignmentById(id,credentials.userId);
                 if (assignment.num_of_attempts > count){
 
                     if (assignment.deadline && new Date() <= new Date(assignment.deadline)) {
@@ -75,11 +75,8 @@ export const createSubmission = async(req,res,next)=>{
                 }
 
 
-            }
-            else{
-                logger.error('Forbidden: You do not have permission to update this assignment');
-                return res.status(403).send('Forbidden: You do not have permission to submit this assignment');
-            }
+            
+
 
 
         }

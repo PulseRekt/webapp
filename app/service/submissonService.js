@@ -14,10 +14,10 @@ export const createSubmission = async(submission)=>{
     }
 };
 
-export const countAssignmentById = async (id) => {
+export const countAssignmentById = async (id,userId) => {
     try {
         const count = await Submission.count({
-            where: { assignment_id: id },
+            where: { assignment_id: id,user_id:userId },
         });
         return count;
     } catch (error) {
