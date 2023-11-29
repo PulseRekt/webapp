@@ -64,7 +64,8 @@ export const createSubmission = async(req,res,next)=>{
 
                         const message = {
                             submissionUrl: body.submission_url,
-                            email: credentials.email
+                            email: credentials.email,
+                            assignmentId: id
                         }
 
                         snsPublish(message);
