@@ -10,6 +10,9 @@ const Submission = sequelize.define('Submission',{
     "assignment_id":{
         type:UUID
     },
+    "user_id":{
+        type:UUID
+    },
     "submission_url":{
         type:STRING
     },
