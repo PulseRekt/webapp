@@ -1,4 +1,11 @@
-first_name,last_name,email,password
 john,doe,john.doe@example.com,abc123
 jane,doe,jane.doe@example.com,xyz456
+admin,admin,admin.doe@example.com,admin123
+aditya,sawant,sawant.adit@northeastern.edu,adi123
+nagendra,shakamuri,shakamuri.n@northeastern.edu,nag123
+raushan,kumar,jha.rau@northeastern.edu,rau123
+rishab,agarwal,agarwal.risha@northeastern.edu,ris123
+sai,deepak,dogiparthi.sai@northeastern.edu,sai123
+shikha,singh,singh.shikha@northeastern.edu,shi123
+souvik,dinda,dinda.s@northeastern.edu,sou123
 barathi,sridhar,barathis1998@gmail.com,abc123
