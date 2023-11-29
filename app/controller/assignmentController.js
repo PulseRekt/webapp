@@ -12,11 +12,18 @@ const validateAssignment = (assignment) => {
     errors.push({ field: 'name', message: 'Name is required and must be a string' });
   }
 
-  if (!assignment.points || isNaN(Number(assignment.points)) || assignment.points < 0 || assignment.points > 100) {
-    errors.push({ field: 'points', message: 'Points is required and must be a number' });
+  if (
+    !Number.isInteger(assignment.points) ||  // Check if it's an integer
+    assignment.points < 0 ||                  // Check if it's non-negative
+    assignment.points % 1 !== 0 ||            // Check if it's not a float
+    isNaN(Number(assignment.points)) ||       // Check if it's not NaN
+    assignment.points > 10                   // Check if it's less than or equal to 100
+  ) {
+    errors.push({ field: 'points', message: 'Points is required and must be a non-negative integer' });
   }
+  
 
-  if (!assignment.num_of_attempts || isNaN(Number(assignment.num_of_attempts)) ||  assignment.num_of_attempts < 0 || assignment.num_of_attempts > 100) {
+  if (!assignment.num_of_attempts || isNaN(Number(assignment.num_of_attempts)) ||  assignment.num_of_attempts < 0 || assignment.num_of_attempts > 100 ||   assignment.num_of_attempts % 1 !== 0 ) {
     errors.push({ field: 'num_of_attempts', message: 'Number of attempts is required and must be a number' });
   }
   if (!assignment.deadline || !isValidDate(assignment.deadline)) {
