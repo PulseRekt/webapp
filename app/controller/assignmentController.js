@@ -2,6 +2,7 @@ import assignmentRouter from '../routes/assingmentRoute.js';
 import handleBasicAuthentication from '../security/authentication.js';
 import * as as from '../service/assignmentService.js';
 import logger from '../../logger/logger.js';
+import { assignmentExists } from '../service/submissonService.js';
 
 
 const validateAssignment = (assignment) => {
@@ -217,6 +218,10 @@ export const putAssignment = async (req, res, next) => {
         }
   
         if (assignment.userId === credentials.userId) {
+          const exists = await assignmentExists(id);
+          if(exists){
+            return res.status(403).send("Cannot delete assignment: Submission exists");
+          }
           await as.deleteAssignmentById(id);
           logger.info('Assignment deleted successfully');
           return res.status(204).send();

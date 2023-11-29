@@ -25,3 +25,16 @@ export const countAssignmentById = async (id,userId) => {
         throw error; 
     }
 };
+
+export const assignmentExists = async (id) => {
+    try {
+        const assignment = await Submission.findOne({
+            where: { assignment_id: id },
+        });
+        return !!assignment; 
+    } catch (error) {
+        console.error('Error checking if assignment exists:', error);
+        throw error;
+    }
+};
+
