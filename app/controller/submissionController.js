@@ -27,6 +27,15 @@ export const createSubmission = async(req,res,next)=>{
             }
       
             const body = req.body;
+            console.log(req.body.submission_url);
+
+            if (!req.body.submission_url || req.body.submission_url.trim() === '') {
+                return res.status(400).send('Bad Request: submission_url is missing or empty');
+              }
+              if (Object.keys(req.body).length !== 1 || !req.body.hasOwnProperty('submission_url')) {
+                return res.status(400).send('Bad Request: Only "submission_url" field is allowed');
+              }
+
 
             const assignment = await getAssignmentById(id);
             if (!assignment) {
