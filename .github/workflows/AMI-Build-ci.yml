@@ -181,10 +181,13 @@ jobs:
 
                 LT_NAME="${{ steps.get_asg_and_lt.outputs.lt_name }}"
     
+                LT_DATA=$(aws ec2 describe-launch-templates --launch-template-names $LT_NAME --query 'LaunchTemplates[0].LaunchTemplateData' --output json)
+    
                 aws ec2 create-launch-template-version --launch-template-name $LT_NAME \
                   --version-description "Latest AMI version" \
                   --source-version $LT_NAME \
-                  --image-id "$AMI_ID"
+                  --image-id "$AMI_ID" \
+                  --launch-template-data "$LT_DATA"
         - name: Trigger Auto Scaling Group Instance Refresh
           run: |
             ASG_NAME="${{ steps.get_asg_and_lt.outputs.asg_name }}"
