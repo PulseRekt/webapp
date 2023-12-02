@@ -123,21 +123,9 @@ jobs:
           id: build_ami
           run: |
               cd packer
-              PACKER_OUTPUT_FILE=$(mktemp)
-              packer build --var-file=variable.pkrvars.hcl aws-debian.pkr.hcl > "$PACKER_OUTPUT_FILE"
-          
-              NEW_AMI_ID=$(grep -E -o 'ami-[a-zA-Z0-9]+' "$PACKER_OUTPUT_FILE")
-              echo "New AMI ID: $NEW_AMI_ID"
-
-              cat "$PACKER_OUTPUT_FILE"
-          
-              echo "NEW_AMI_ID=$NEW_AMI_ID" >> $GITHUB_ENV
-          
+              packer build --var-file=variable.pkrvars.hcl aws-debian.pkr.hcl 
 
           
-
-          
-
 
   deploy:
     name: deploy AMI
@@ -186,11 +174,13 @@ jobs:
 
         - name: Update Launch Template with new AMI
           run: |
-                NEW_AMI_ID=${{ needs.build_ami.outputs.new_ami_id }}
-                echo "New AMI ID: $NEW_AMI_ID"  # Print the AMI ID to the log
+                AMI_ID=$(aws ec2 describe-images \
+                --executable-users ${{ secrets.USER }} \
+                --query 'Images | sort_by(@, &CreationDate) | [-1].ImageId' \
+                --filters "Name=name,Values=my-ami_*" \
+                --output text)
                 
 
-                aws ec2 create-launch-template-version --launch-template-name ${{ needs.get_asg_and_lt.outputs.lt_name }} --version-description "Latest AMI version" --source-version ${{ needs.get_asg_and_lt.outputs.lt_name }} --image-id $NEW_AMI_ID
           
       
 
