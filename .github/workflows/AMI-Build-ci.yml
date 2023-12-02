@@ -188,6 +188,7 @@ jobs:
                   --source-version $LT_NAME \
                   --image-id "$AMI_ID" \
                   --launch-template-data "$LT_DATA"
+
         - name: Trigger Auto Scaling Group Instance Refresh
           run: |
             ASG_NAME="${{ steps.get_asg_and_lt.outputs.asg_name }}"
