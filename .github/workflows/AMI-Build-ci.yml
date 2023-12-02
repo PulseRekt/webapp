@@ -75,17 +75,6 @@ jobs:
           with:
               version: "latest"
 
-        # - name: setup .env
-        #   run: |
-        #     echo "DB_HOST=127.0.0.1" >> .env
-        #     echo "DB_PORT=3306" >> .env
-        #     echo "DB_DATABASE=cloud" >> .env
-        #     echo "DB_USERNAME=root" >> .env
-        #     echo "DB_PASSWORD=Thenothing1!" >> .env
-        #     echo "FILE_PATH=./opt/users.csv" >> .env
-          
-          
-
         - name: Build Artifact
           run: zip -r web-app.zip . -x ".git*" -x ".github*"
             
@@ -134,5 +123,52 @@ jobs:
           run: |
                 cd packer
                 packer build --var-file=variable.pkrvars.hcl aws-debian.pkr.hcl
+  
+  deploy:
+    name: deploy AMI
+    runs-on: ubuntu-latest
+    needs: build 
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.DEMO_AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.DEMO_AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-1
+
+
+    steps:
+        - name: checkout
+          uses: actions/checkout@v3
+
+        - name: Setup Demo Environment
+          run: |
+            export AWS_ACCESS_KEY_ID=${{secrets.DEMO_AWS_ACCESS_KEY_ID}}
+            export AWS_SECRET_ACCESS_KEY=${{secrets.DEMO_AWS_SECRET_ACCESS_KEY}}
+
+        - name: Get Auto Scaling Group and Launch Template
+          id: get_asg_and_lt
+          run: |
+              # Set the desired prefix for the Launch Template name
+              LT_NAME_PREFIX="ec2Template"
+          
+              # Use AWS CLI to list Launch Templates and filter by the specified prefix
+              LT_NAME=$(aws ec2 describe-launch-templates --query "LaunchTemplates[?starts_with(LaunchTemplateName, '${LT_NAME_PREFIX}')].LaunchTemplateName" --output text)
+          
+              if [ -z "$LT_NAME" ]; then
+                echo "No Launch Template found with the specified prefix."
+                exit 1
+              fi
+          
+              # Assuming there's only one Launch Template with the specified prefix
+              ASG_NAME=$(aws autoscaling describe-auto-scaling-groups --query "AutoScalingGroups[?contains(LaunchTemplate.LaunchTemplateName, '${LT_NAME}')].AutoScalingGroupName" --output text)
+          
+              if [ -z "$ASG_NAME" ]; then
+                echo "No Auto Scaling Group found using the Launch Template."
+                exit 1
+              fi
+          
+              echo "::set-output name=asg_name::$ASG_NAME"
+              echo "::set-output name=lt_name::$LT_NAME"
+          
+      
 
 
