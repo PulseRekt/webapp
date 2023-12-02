@@ -165,6 +165,9 @@ jobs:
                 echo "No Auto Scaling Group found using the Launch Template."
                 exit 1
               fi
+              
+              echo "Auto Scaling Group Name: $ASG_NAME"
+              echo "Launch Template Name: $LT_NAME"
           
               echo "::set-output name=asg_name::$ASG_NAME"
               echo "::set-output name=lt_name::$LT_NAME"
