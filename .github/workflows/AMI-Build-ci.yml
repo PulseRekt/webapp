@@ -183,6 +183,7 @@ jobs:
           run: |
 
             
+
         - name: Trigger Auto Scaling Group Instance Refresh
           run: |
             ASG_NAME="${{ steps.get_asg_and_lt.outputs.asg_name }}"
