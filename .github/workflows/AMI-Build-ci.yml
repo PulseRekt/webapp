@@ -123,19 +123,17 @@ jobs:
           id: build_ami
           run: |
               cd packer
-              # Run Packer build and capture the output
               PACKER_OUTPUT_FILE=$(mktemp)
               packer build --var-file=variable.pkrvars.hcl aws-debian.pkr.hcl > "$PACKER_OUTPUT_FILE"
           
-              # Extract the AMI ID from the Packer output
               NEW_AMI_ID=$(grep -E -o 'ami-[a-zA-Z0-9]+' "$PACKER_OUTPUT_FILE")
               echo "New AMI ID: $NEW_AMI_ID"
+
+              cat "$PACKER_OUTPUT_FILE"
           
-              # Store the AMI ID in an environment file
               echo "NEW_AMI_ID=$NEW_AMI_ID" >> $GITHUB_ENV
           
-              # Display the Packer output for debugging (optional)
-              cat "$PACKER_OUTPUT_FILE"
+
           
 
           
