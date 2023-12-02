@@ -179,7 +179,37 @@ jobs:
                 --query 'Images | sort_by(@, &CreationDate) | [-1].ImageId' \
                 --filters "Name=name,Values=my-ami_*" \
                 --output text)
-                
+
+                LT_NAME="${{ steps.get_asg_and_lt.outputs.lt_name }}"
+    
+                aws ec2 create-launch-template-version --launch-template-name $LT_NAME \
+                  --version-description "Latest AMI version" \
+                  --source-version $LT_NAME \
+                  --image-id "$AMI_ID"
+        - name: Trigger Auto Scaling Group Instance Refresh
+          run: |
+            ASG_NAME="${{ steps.get_asg_and_lt.outputs.asg_name }}"
+      
+            aws autoscaling start-instance-refresh --auto-scaling-group-name $ASG_NAME --strategy Rolling
+      
+        
+        - name: Wait for Auto Scaling Group Instance Refresh Completion
+          run: |
+            ASG_NAME="${{ steps.get_asg_and_lt.outputs.asg_name }}"
+            REFRESH_STATUS=""
+            while [[ "$REFRESH_STATUS" != "Successful" && "$REFRESH_STATUS" != "Failed" ]]; do
+              REFRESH_STATUS=$(aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names $ASG_NAME --query 'AutoScalingGroups[0].Instances[0].InstanceRefresh.Status' --output text)
+              sleep 30
+            done
+            echo "Instance Refresh Status: $REFRESH_STATUS"
+              
+            # Check the instance refresh status and fail the workflow if it failed
+            if [[ "$REFRESH_STATUS" == "Failed" ]]; then
+              echo "Instance refresh failed. Workflow failed."
+              exit 1
+            else
+              echo "Instance refresh completed successfully."
+            fi
 
           
       
