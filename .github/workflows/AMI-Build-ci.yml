@@ -146,52 +146,59 @@ jobs:
             export AWS_ACCESS_KEY_ID=${{secrets.DEMO_AWS_ACCESS_KEY_ID}}
             export AWS_SECRET_ACCESS_KEY=${{secrets.DEMO_AWS_SECRET_ACCESS_KEY}}
 
-        - name: Get Auto Scaling Group and Launch Template
-          id: get_asg_and_lt
-          run: |
+            - name: Get Auto Scaling Group and Launch Template
+            id: get_asg_and_lt
+            run: |
               LT_NAME_PREFIX="ec2Template"
-          
+            
               LT_NAME=$(aws ec2 describe-launch-templates --query "LaunchTemplates[?starts_with(LaunchTemplateName, '${LT_NAME_PREFIX}')].LaunchTemplateName" --output text)
-          
+            
               if [ -z "$LT_NAME" ]; then
                 echo "No Launch Template found with the specified prefix."
                 exit 1
               fi
-          
+            
               ASG_NAME=$(aws autoscaling describe-auto-scaling-groups --query "AutoScalingGroups[?contains(LaunchTemplate.LaunchTemplateName, '${LT_NAME}')].AutoScalingGroupName" --output text)
-          
+            
               if [ -z "$ASG_NAME" ]; then
                 echo "No Auto Scaling Group found using the Launch Template."
                 exit 1
               fi
-
-              echo "Auto Scaling Group Name: $ASG_NAME"
-              echo "Launch Template Name: $LT_NAME"
           
+              ASG_ID=$(aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names $ASG_NAME --query 'AutoScalingGroups[0].AutoScalingGroupARN' --output text | cut -d':' -f 6)
+              LT_ID=$(aws ec2 describe-launch-templates --launch-template-names $LT_NAME --query 'LaunchTemplates[0].LaunchTemplateId' --output text)
+          
+              echo "Auto Scaling Group Name: $ASG_NAME"
+              echo "Auto Scaling Group ID: $ASG_ID"
+              echo "Launch Template Name: $LT_NAME"
+              echo "Launch Template ID: $LT_ID"
+            
               echo "::set-output name=asg_name::$ASG_NAME"
+              echo "::set-output name=asg_id::$ASG_ID"
               echo "::set-output name=lt_name::$LT_NAME"
+              echo "::set-output name=lt_id::$LT_ID"
+          
 
         - name: Update Launch Template with new AMI
           run: |
-                AMI_ID=$(aws ec2 describe-images \
-                --executable-users ${{ secrets.USER }} \
-                --query 'Images | sort_by(@, &CreationDate) | [-1].ImageId' \
-                --filters "Name=name,Values=my-ami_*" \
-                --output text)
 
-                LT_NAME="${{ steps.get_asg_and_lt.outputs.lt_name }}"
-    
-                LT_DATA=$(aws ec2 describe-launch-templates --launch-template-names $LT_NAME --query 'LaunchTemplates[0].LaunchTemplateData' --output json)
-    
-                aws ec2 create-launch-template-version --launch-template-name $LT_NAME \
-                  --version-description "Latest AMI version" \
-                  --source-version $LT_NAME \
-                  --image-id "$AMI_ID" \
-                  --launch-template-data "$LT_DATA"
 
         - name: Trigger Auto Scaling Group Instance Refresh
           run: |
             ASG_NAME="${{ steps.get_asg_and_lt.outputs.asg_name }}"
+            LT_ID="${{ needs.get_asg_and_lt.outputs.lt_id }}"
+            
+
+            AMI_ID=$(aws ec2 describe-images \
+            --executable-users ${{secrets.USER}} \
+            --query 'Images | sort_by(@, &CreationDate) | [-1].ImageId' \
+            --filters "Name=name,Values=my-ami_*" \
+            --output text 
+
+            aws ec2 create-launch-template-version --launch-template-id $LT_ID \
+            --version-description "Latest AMI version" \
+            --source-version 1 \
+            --launch-template-data "ImageId=$AMI_ID"
       
             aws autoscaling start-instance-refresh --auto-scaling-group-name $ASG_NAME --strategy Rolling
       
