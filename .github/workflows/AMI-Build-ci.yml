@@ -140,6 +140,7 @@ jobs:
 
           
 
+
   deploy:
     name: deploy AMI
     runs-on: ubuntu-latest
@@ -190,6 +191,7 @@ jobs:
                 NEW_AMI_ID=${{ needs.build_ami.outputs.new_ami_id }}
                 echo "New AMI ID: $NEW_AMI_ID"  # Print the AMI ID to the log
                 
+
                 aws ec2 create-launch-template-version --launch-template-name ${{ needs.get_asg_and_lt.outputs.lt_name }} --version-description "Latest AMI version" --source-version ${{ needs.get_asg_and_lt.outputs.lt_name }} --image-id $NEW_AMI_ID
           
       
