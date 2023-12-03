@@ -172,32 +172,25 @@ jobs:
               echo "Auto Scaling Group ID: $ASG_ID"
               echo "Launch Template Name: $LT_NAME"
               echo "Launch Template ID: $LT_ID"
+
+              AMI_ID=$(aws ec2 describe-images \
+              --executable-users ${{secrets.USER}} \
+              --query 'Images | sort_by(@, &CreationDate) | [-1].ImageId' \
+              --filters "Name=name,Values=my-ami_*" \
+              --output text 
+              )
+ 
+              aws ec2 create-launch-template-version --launch-template-id $LT_ID \
+              --version-description "Latest AMI version" \
+              --source-version 1 \
+              --launch-template-data "ImageId=$AMI_ID"
             
               echo "::set-output name=asg_name::$ASG_NAME"
               echo "::set-output name=asg_id::$ASG_ID"
               echo "::set-output name=lt_name::$LT_NAME"
               echo "::set-output name=lt_id::$LT_ID"
-          
-
-        - name: Update Launch Template with new AMI
-          run: |
-             LT_ID="${{ needs.get_asg_and_lt.outputs.lt_id }}"
-             echo "Launch Template ID: $LT_ID"
 
 
-
-
-             AMI_ID=$(aws ec2 describe-images \
-             --executable-users ${{secrets.USER}} \
-             --query 'Images | sort_by(@, &CreationDate) | [-1].ImageId' \
-             --filters "Name=name,Values=my-ami_*" \
-             --output text 
-             )
-
-             aws ec2 create-launch-template-version --launch-template-id $LT_ID \
-             --version-description "Latest AMI version" \
-             --source-version 1 \
-             --launch-template-data "ImageId=$AMI_ID"
 
 
         - name: Trigger Auto Scaling Group Instance Refresh
