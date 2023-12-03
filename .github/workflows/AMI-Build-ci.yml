@@ -206,7 +206,7 @@ jobs:
             ASG_NAME="${{ steps.get_asg_and_lt.outputs.asg_name }}"
             REFRESH_STATUS=""
             while [[ "$REFRESH_STATUS" != "Successful" && "$REFRESH_STATUS" != "Failed" ]]; do
-              REFRESH_STATUS=$(🚀 aws autoscaling describe-instance-refreshes --auto-scaling-group-name $ASG_NAME --query 'InstanceRefreshes[0].Status' --output text)
+              REFRESH_STATUS=$(aws autoscaling describe-instance-refreshes --auto-scaling-group-name $ASG_NAME --query 'InstanceRefreshes[0].Status' --output text)
               echo "Instance Refresh Status: $REFRESH_STATUS"
               sleep 15
             done
