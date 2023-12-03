@@ -185,7 +185,7 @@ jobs:
               --version-description "Latest AMI version" \
               --source-version 1 \
               --launch-template-data "ImageId=$AMI_ID"
-              --set-default-version
+
 
               # Get the new version number
               NEW_VERSION=$(aws ec2 describe-launch-template-versions --launch-template-id $LT_ID --query 'LaunchTemplateVersions[0].VersionNumber' --output text)
