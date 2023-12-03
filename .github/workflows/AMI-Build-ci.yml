@@ -55,81 +55,81 @@ jobs:
     - name: Run Jest Tests
       run: npm test
 
-  # build:
-  #   name: Build Ami
-  #   runs-on: ubuntu-latest
-  #   needs: validate 
+  build:
+    name: Build Ami
+    runs-on: ubuntu-latest
+    needs: validate 
 
-  #   env:
-  #       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 
-  #   steps:
-  #       - name: checkout
-  #         uses: actions/checkout@v3
+    steps:
+        - name: checkout
+          uses: actions/checkout@v3
 
-  #       - name: Setup Packer
-  #         uses: hashicorp/setup-packer@main
-  #         id: setup
-  #         with:
-  #             version: "latest"
+        - name: Setup Packer
+          uses: hashicorp/setup-packer@main
+          id: setup
+          with:
+              version: "latest"
 
-  #       - name: Build Artifact
-  #         run: zip -r web-app.zip . -x ".git*" -x ".github*"
+        - name: Build Artifact
+          run: zip -r web-app.zip . -x ".git*" -x ".github*"
             
 
-  #       - name: Publish Web App Artifact
-  #         uses: actions/upload-artifact@v2
-  #         with:
-  #               name: web-app
-  #               path: web-app.zip
+        - name: Publish Web App Artifact
+          uses: actions/upload-artifact@v2
+          with:
+                name: web-app
+                path: web-app.zip
         
-  #       - name: check path
-  #         run: |
-  #               pwd
-  #               ls /home/runner/work/webapp/webapp
+        - name: check path
+          run: |
+                pwd
+                ls /home/runner/work/webapp/webapp
 
-  #       - name: Packer init
-  #         run: |
-  #               packer init packer/aws-debian.pkr.hcl
+        - name: Packer init
+          run: |
+                packer init packer/aws-debian.pkr.hcl
                   
-  #       - name: Format Check Pakcer File
-  #         run: |
-  #               if ! packer fmt -check packer/aws-debian.pkr.hcl; then
-  #                   echo "Packer file formatting check failed. Exiting the pipeline."
-  #                   exit 1
-  #                 fi
+        - name: Format Check Pakcer File
+          run: |
+                if ! packer fmt -check packer/aws-debian.pkr.hcl; then
+                    echo "Packer file formatting check failed. Exiting the pipeline."
+                    exit 1
+                  fi
                   
-  #       - name: Validate Packer File
-  #         run: |
-  #               if ! packer validate packer/aws-debian.pkr.hcl; then
-  #                 echo "Packer validation check failed. Exiting the pipeline."
-  #                 exit 1
-  #               fi
+        - name: Validate Packer File
+          run: |
+                if ! packer validate packer/aws-debian.pkr.hcl; then
+                  echo "Packer validation check failed. Exiting the pipeline."
+                  exit 1
+                fi
 
-  #       - name: setup Enviroment variables
-  #         run: |
-  #           export DB_HOST=${{ secrets.DB_HOST }}
-  #           export DB_PORT=${{ secrets.DB_PORT }}
-  #           export DB_DATABASE=${{ secrets.DB_DATABASE }}
-  #           export DB_USERNAME=${{ secrets.DB_USERNAME }}
-  #           export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-  #           export FILE_PATH=${{ secrets.FILE_PATH }}
-  #           export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
-  #           export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        - name: setup Enviroment variables
+          run: |
+            export DB_HOST=${{ secrets.DB_HOST }}
+            export DB_PORT=${{ secrets.DB_PORT }}
+            export DB_DATABASE=${{ secrets.DB_DATABASE }}
+            export DB_USERNAME=${{ secrets.DB_USERNAME }}
+            export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            export FILE_PATH=${{ secrets.FILE_PATH }}
+            export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+            export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
                       
-  #       - name: Build AMI
-  #         id: build_ami
-  #         run: |
-  #             cd packer
-  #             packer build --var-file=variable.pkrvars.hcl aws-debian.pkr.hcl 
+        - name: Build AMI
+          id: build_ami
+          run: |
+              cd packer
+              packer build --var-file=variable.pkrvars.hcl aws-debian.pkr.hcl 
 
 
   deploy:
     name: deploy AMI
     runs-on: ubuntu-latest
-    # needs: build 
+    needs: build 
 
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.DEMO_AWS_ACCESS_KEY_ID }}
