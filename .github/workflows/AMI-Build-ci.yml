@@ -126,6 +126,7 @@ jobs:
         #       packer build --var-file=variable.pkrvars.hcl aws-debian.pkr.hcl 
 
 
+
   deploy:
     name: deploy AMI
     runs-on: ubuntu-latest
@@ -189,7 +190,6 @@ jobs:
               echo "::set-output name=asg_id::$ASG_ID"
               echo "::set-output name=lt_name::$LT_NAME"
               echo "::set-output name=lt_id::$LT_ID"
-
 
 
 
