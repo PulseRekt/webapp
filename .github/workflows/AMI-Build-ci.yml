@@ -207,9 +207,9 @@ jobs:
             REFRESH_STATUS=""
             while [[ "$REFRESH_STATUS" != "Successful" && "$REFRESH_STATUS" != "Failed" ]]; do
               REFRESH_STATUS=$(aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names $ASG_NAME --query 'AutoScalingGroups[0].Instances[0].InstanceRefresh.Status' --output text)
-              sleep 30
+              echo "Instance Refresh Status: $REFRESH_STATUS"
+              sleep 15
             done
-            echo "Instance Refresh Status: $REFRESH_STATUS"
               
             # Check the instance refresh status and fail the workflow if it failed
             if [[ "$REFRESH_STATUS" == "Failed" ]]; then
