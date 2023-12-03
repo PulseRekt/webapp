@@ -185,6 +185,7 @@ jobs:
               --version-description "Latest AMI version" \
               --source-version 1 \
               --launch-template-data "ImageId=$AMI_ID"
+              --set-default-version
             
               echo "::set-output name=asg_name::$ASG_NAME"
               echo "::set-output name=asg_id::$ASG_ID"
