@@ -189,6 +189,7 @@ jobs:
              --query 'Images | sort_by(@, &CreationDate) | [-1].ImageId' \
              --filters "Name=name,Values=my-ami_*" \
              --output text 
+             )
 
              aws ec2 create-launch-template-version --launch-template-id $LT_ID \
              --version-description "Latest AMI version" \
