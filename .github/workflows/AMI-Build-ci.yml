@@ -193,6 +193,7 @@ jobs:
               echo "new version:$NEW_VERSION"
               # Set the new version as default
               aws ec2 modify-launch-template --launch-template-id $LT_ID --default-version $NEW_VERSION
+
             
               echo "::set-output name=asg_name::$ASG_NAME"
               echo "::set-output name=asg_id::$ASG_ID"
