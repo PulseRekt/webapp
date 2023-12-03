@@ -146,9 +146,9 @@ jobs:
             export AWS_ACCESS_KEY_ID=${{secrets.DEMO_AWS_ACCESS_KEY_ID}}
             export AWS_SECRET_ACCESS_KEY=${{secrets.DEMO_AWS_SECRET_ACCESS_KEY}}
 
-            - name: Get Auto Scaling Group and Launch Template
-            id: get_asg_and_lt
-            run: |
+        - name: Get Auto Scaling Group and Launch Template
+          id: get_asg_and_lt
+          run: |
               LT_NAME_PREFIX="ec2Template"
             
               LT_NAME=$(aws ec2 describe-launch-templates --query "LaunchTemplates[?starts_with(LaunchTemplateName, '${LT_NAME_PREFIX}')].LaunchTemplateName" --output text)
@@ -181,24 +181,25 @@ jobs:
 
         - name: Update Launch Template with new AMI
           run: |
+             LT_ID="${{ needs.get_asg_and_lt.outputs.lt_id }}"
+
+
+             AMI_ID=$(aws ec2 describe-images \
+             --executable-users ${{secrets.USER}} \
+             --query 'Images | sort_by(@, &CreationDate) | [-1].ImageId' \
+             --filters "Name=name,Values=my-ami_*" \
+             --output text 
+
+             aws ec2 create-launch-template-version --launch-template-id $LT_ID \
+             --version-description "Latest AMI version" \
+             --source-version 1 \
+             --launch-template-data "ImageId=$AMI_ID"
 
 
         - name: Trigger Auto Scaling Group Instance Refresh
           run: |
             ASG_NAME="${{ steps.get_asg_and_lt.outputs.asg_name }}"
-            LT_ID="${{ needs.get_asg_and_lt.outputs.lt_id }}"
-            
 
-            AMI_ID=$(aws ec2 describe-images \
-            --executable-users ${{secrets.USER}} \
-            --query 'Images | sort_by(@, &CreationDate) | [-1].ImageId' \
-            --filters "Name=name,Values=my-ami_*" \
-            --output text 
-
-            aws ec2 create-launch-template-version --launch-template-id $LT_ID \
-            --version-description "Latest AMI version" \
-            --source-version 1 \
-            --launch-template-data "ImageId=$AMI_ID"
       
             aws autoscaling start-instance-refresh --auto-scaling-group-name $ASG_NAME --strategy Rolling
       
