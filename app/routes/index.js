@@ -27,7 +27,7 @@ const route = (app)=>{
 
 
 
-    app.use('/v1/assignments', async (req, res, next) => {
+    app.use('/demo/assignments', async (req, res, next) => {
         const headerString = req.headers.authorization;
     
         const authResult = await handleBasicAuthentication(headerString);
